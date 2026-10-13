@@ -139,3 +139,18 @@ Trois piliers : stratégie (niche, angle, personnalité), technique (structure d
 - **Axel et Ronald** : Axel, "trois" ou "quatre premières vidéos", "un peu moins de" ou "presque 500 000 vues" ; Ronald, 120 000 ou 130 000 vues. Ces chiffres ne sont pas tranchés.
 - **À confirmer** : le @ exact du compte de Louis (noté @itslouismatys), chiffre des licornes françaises, Aberkane avec Louis, Macron 2017, "pays les plus taxés", calendrier de la facturation électronique.
 - **Reste à faire** : brief freelance finalisé, vidéos de témoignages, séquence emails, recrutement du setter, webinaire, offre d'entrée à 300 €, call to action spécifiques au compte politique de Louis. Dans le doc "Éducation et contenu", certaines idées de vidéos n'ont pas encore d'accroche ni d'angle.
+
+## 10. Base de données : documents clients validés
+
+Ces documents sont la référence pour tout ce qui touche au parcours client, à la formation et aux documents à remplir. Ils sont chargés automatiquement avec ce fichier. Les PDF d'origine sont dans `base/pdf/`.
+
+- Onboarding, Ton parcours, étape par étape : @base/onboarding.md
+- Document 1, Trouve ton angle : @base/document-1-trouve-ton-angle.md
+- Document 2, Ta ligne directrice : @base/document-2-ta-ligne-directrice.md
+
+Ce que ces documents ajoutent ou précisent par rapport aux sections ci-dessus :
+- Les documents clients ne citent aucun prix. Le seul chiffre de monétisation est dans le document 2 (accompagnement haut de gamme "de 1 000 € à 4 000 € et plus"), pour les clients de l'Académie, pas pour l'Académie elle-même.
+- Le module 8 enseigne Systeme.io pour le tunnel des clients. ClickFunnels concerne la page de l'Académie.
+- Anna : le document 1 la présente comme ancienne gilet jaune, très révoltée contre le système, avec un angle santé + politique. Aucun chiffre n'y est cité.
+- Côté client, la règle du document 2 est "au tout début, TOFU et uniquement TOFU". Le 40/60 de la section 5 ne vaut que pour le compte B2B de l'Académie.
+- Point ouvert : l'onboarding promet en Ultra Premium "accès direct à Louis, vidéos illimitées, réponse en priorité", alors que la section 2 dit que le suivi illimité est ingérable. À trancher avec eux.
