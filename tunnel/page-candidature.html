@@ -1,0 +1,297 @@
+<title>Page de candidature Sorciers</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Mise en page : une seule colonne mobile, blanc partout, violet pour structurer, or par petites touches (charte Académie des Sorciers). Volontairement en thème clair unique. */
+:root {
+  color-scheme: light;
+  --blanc: #ffffff;
+  --brume: #f6f2fb;
+  --lilas: #e9e1f6;
+  --ligne: #ded5ec;
+  --violet-900: #24123f;
+  --violet-700: #3d1f73;
+  --violet-500: #6a48b8;
+  --or-500: #c9a227;
+  --or-700: #8a6a0b;
+  --or-100: #f9f1d9;
+  --encre: #1d1730;
+  --encre-douce: #5f5873;
+  --titres: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --texte: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --rayon-s: 6px; --rayon-m: 12px; --rayon-l: 20px;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background: var(--blanc);
+  color: var(--encre);
+  font-family: var(--texte);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 64px;
+}
+.page { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px; }
+
+/* 1. Logo texte */
+.logo { padding-top: 28px; text-align: center; font-family: var(--titres); font-weight: 800; font-size: 15px; letter-spacing: .16em; text-transform: uppercase; color: var(--encre); }
+.logo span { color: var(--or-700); }
+
+/* 2. Titre + 3. Vidéo + 4. Bouton */
+.hero { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: -24px; }
+h1 { font-family: var(--titres); font-weight: 800; font-size: clamp(34px, 9vw, 48px); line-height: 1.05; letter-spacing: -.02em; text-align: center; text-wrap: balance; color: var(--violet-900); margin: 0; }
+.video-vsl { position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border-radius: var(--rayon-m); background: var(--violet-900); overflow: hidden; display: grid; place-items: center; border: 2px solid var(--violet-900); }
+.video-vsl video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.placeholder-video { color: var(--lilas); font-size: 14px; text-align: center; padding: 16px; }
+.placeholder-video strong { display: block; font-family: var(--titres); color: var(--blanc); font-size: 18px; }
+.son { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; background: var(--or-500); color: var(--violet-900); border: 0; border-radius: 999px; padding: 9px 16px; font: 600 14px/1 var(--texte); cursor: pointer; white-space: nowrap; }
+.son svg { width: 16px; height: 16px; }
+.son[aria-pressed="true"] { background: var(--blanc); }
+.cta { display: inline-flex; align-items: center; justify-content: center; gap: 12px; width: 100%; background: var(--or-500); color: var(--violet-900); text-decoration: none; border: 0; border-radius: var(--rayon-m); padding: 18px 22px; font: 700 18px/1.2 var(--titres); cursor: pointer; transition: transform .15s ease, background .15s ease; }
+.cta:hover { background: #d6b13a; }
+.cta:active { transform: translateY(1px); }
+.cta svg { width: 20px; height: 20px; flex: none; transition: transform .2s ease; }
+.cta:hover svg { transform: translateX(3px); }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--violet-500); outline-offset: 2px; }
+
+/* 5. Questionnaire */
+.candidature { background: var(--brume); border-radius: var(--rayon-l); padding: 28px 20px; display: flex; flex-direction: column; gap: 24px; scroll-margin-top: 16px; }
+.candidature header { display: flex; flex-direction: column; gap: 6px; }
+h2 { font-family: var(--titres); font-weight: 700; font-size: 26px; line-height: 1.2; color: var(--violet-900); margin: 0; text-wrap: balance; }
+.sous-titre { margin: 0; font-size: 14px; color: var(--encre-douce); white-space: nowrap; }
+form { display: flex; flex-direction: column; gap: 20px; }
+.champ { display: flex; flex-direction: column; gap: 8px; }
+.champ label, .champ legend { font-weight: 600; font-size: 15px; line-height: 1.45; color: var(--encre); padding: 0; }
+.num { font-family: var(--titres); color: var(--or-700); font-weight: 700; margin-right: 4px; }
+input[type="tel"], input[type="text"], textarea { width: 100%; background: var(--blanc); border: 1.5px solid var(--violet-500); border-radius: var(--rayon-s); padding: 12px 14px; font: 400 16px/1.5 var(--texte); color: var(--encre); }
+textarea { min-height: 104px; resize: vertical; }
+input::placeholder, textarea::placeholder { color: var(--encre-douce); opacity: .7; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.radios { display: grid; gap: 8px; margin-top: 8px; }
+.radio { display: flex; align-items: center; gap: 10px; background: var(--blanc); border: 1.5px solid var(--ligne); border-radius: var(--rayon-s); padding: 11px 14px; cursor: pointer; font-weight: 400; font-variant-numeric: tabular-nums; }
+.radio:has(input:checked) { border-color: var(--violet-700); background: var(--lilas); }
+.radio input { accent-color: var(--violet-700); width: 18px; height: 18px; margin: 0; }
+.suite { display: flex; flex-direction: column; gap: 20px; }
+.suite.visible { animation: apparait .35s ease both; }
+@keyframes apparait { from { opacity: .2; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.erreur { color: #a3261d; font-size: 14px; margin: 0; }
+.champ.invalide input, .champ.invalide textarea { border-color: #a3261d; }
+.champ.invalide .radios .radio { border-color: #e2b4b0; }
+
+/* 6. Études de cas */
+.cas { display: flex; flex-direction: column; gap: 24px; }
+.cartes { display: flex; flex-direction: column; gap: 20px; }
+.carte { border: 1.5px solid var(--ligne); border-radius: var(--rayon-l); overflow: hidden; background: var(--blanc); display: flex; flex-direction: column; }
+.carte-video { aspect-ratio: 9 / 16; max-height: 420px; width: 100%; max-width: 100%; background: var(--violet-900); display: grid; place-items: center; color: var(--lilas); font-size: 14px; text-align: center; padding: 16px; }
+.carte.vedette .carte-video { max-height: 520px; }
+.carte-corps { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 12px; }
+.carte-nom { font-family: var(--titres); font-weight: 700; font-size: 22px; color: var(--violet-900); margin: 0; }
+.bandeau { background: var(--violet-900); color: var(--blanc); border-radius: var(--rayon-s); padding: 10px 14px; font-family: var(--titres); font-weight: 700; font-size: 18px; line-height: 1.3; }
+.bandeau::before { content: ""; display: block; width: 28px; height: 3px; background: var(--or-500); border-radius: 2px; margin-bottom: 8px; }
+.coches { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.coches li { display: flex; gap: 10px; align-items: flex-start; }
+.coches svg { width: 20px; height: 20px; flex: none; margin-top: 2px; }
+.mention { font-size: 13px; color: var(--encre-douce); margin: 0; }
+.carte-paire { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.carte-paire .carte-video { max-height: 300px; }
+.carte-paire .carte-corps { padding: 14px; }
+.carte-paire .carte-nom { font-size: 19px; }
+.carte-paire .bandeau { font-size: 15px; }
+@media (max-width: 420px) { .carte-paire { grid-template-columns: 1fr; } }
+
+/* Page de remerciement */
+.merci { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+.merci p { margin: 0; max-width: 65ch; }
+.merci a { color: var(--violet-700); font-weight: 600; }
+.merci .spams { font-weight: 600; color: var(--violet-900); }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } html { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+
+<div class="page" id="vue-page">
+  <div class="logo" aria-label="L'Académie des Sorciers">L'ACADÉMIE DES <span>SORCIERS</span></div>
+
+  <section class="hero">
+    <h1>Deviens impossible à ignorer</h1>
+    <div class="video-vsl">
+      <div class="placeholder-video"><strong>Vidéo de présentation</strong>Emplacement de la vidéo. Elle démarre seule, sans le son.</div>
+      <button class="son" id="bouton-son" type="button" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6M17 9l6 6"/></svg>
+        <span>Touche pour activer le son</span>
+      </button>
+    </div>
+    <a class="cta" href="#candidature">Je dépose ma candidature
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </section>
+
+  <section class="candidature" id="candidature" aria-labelledby="titre-candidature">
+    <header>
+      <h2 id="titre-candidature">Dépose ta candidature pour un appel</h2>
+      <p class="sous-titre">5 questions, 5 minutes maximum</p>
+    </header>
+    <form id="formulaire" novalidate>
+      <div class="champ" data-champ="whatsapp">
+        <label for="whatsapp">Ton numéro WhatsApp</label>
+        <input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="+33 6 12 34 56 78" required>
+      </div>
+      <div class="champ" data-champ="instagram">
+        <label for="instagram">Ton nom d'utilisateur Instagram</label>
+        <input id="instagram" name="instagram" type="text" autocomplete="off" autocapitalize="off" placeholder="@toncompte" required>
+      </div>
+
+      <div class="suite" id="suite" hidden>
+        <div class="champ" data-champ="q1">
+          <label for="q1"><span class="num">1.</span>Présente-toi rapidement : ta situation pro et perso en détail.</label>
+          <textarea id="q1" name="q1" required></textarea>
+        </div>
+        <div class="champ" data-champ="q2">
+          <label for="q2"><span class="num">2.</span>Décris-nous précisément ton activité / idée que tu veux développer (qui sont tes clients, services proposés, ou ton projet en cours ou futur...)</label>
+          <textarea id="q2" name="q2" required></textarea>
+        </div>
+        <fieldset class="champ" data-champ="q3">
+          <legend><span class="num">3.</span>Quels sont tes revenus mensuels / chiffre d'affaires actuels ?</legend>
+          <div class="radios">
+            <label class="radio"><input type="radio" id="q3-a" name="q3" value="Moins de 2 000 €" required>Moins de 2 000 €</label>
+            <label class="radio"><input type="radio" id="q3-b" name="q3" value="2 000 à 3 500 €">2 000 à 3 500 €</label>
+            <label class="radio"><input type="radio" id="q3-c" name="q3" value="3 500 à 5 000 €">3 500 à 5 000 €</label>
+            <label class="radio"><input type="radio" id="q3-d" name="q3" value="5 000 à 10 000 €">5 000 à 10 000 €</label>
+            <label class="radio"><input type="radio" id="q3-e" name="q3" value="10 000 à 30 000 €">10 000 à 30 000 €</label>
+            <label class="radio"><input type="radio" id="q3-f" name="q3" value="Plus de 30 000 €">Plus de 30 000 €</label>
+          </div>
+        </fieldset>
+        <div class="champ" data-champ="q4">
+          <label for="q4"><span class="num">4.</span>Comment décrirais-tu ta situation financière actuellement ?</label>
+          <textarea id="q4" name="q4" required></textarea>
+        </div>
+        <div class="champ" data-champ="q5">
+          <label for="q5"><span class="num">5.</span>Explique-nous ton rapport aux réseaux sociaux (ce que tu as déjà fait ou tes idées)</label>
+          <textarea id="q5" name="q5" required></textarea>
+        </div>
+      </div>
+
+      <p class="erreur" id="erreur" role="alert" hidden>Il manque une réponse. Remplis les champs en rouge, puis renvoie.</p>
+      <button class="cta" type="submit">Je dépose ma candidature
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+  </section>
+
+  <section class="cas" aria-labelledby="titre-cas">
+    <h2 id="titre-cas">Nous les avons fait décoller sur les réseaux sociaux, au service de leur entreprise</h2>
+    <div class="cartes">
+      <article class="carte vedette">
+        <div class="carte-video">Vidéo d'Anna</div>
+        <div class="carte-corps">
+          <p class="carte-nom">Anna</p>
+          <div class="bandeau">3 millions de vues</div>
+          <ul class="coches">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#24123f"/><path d="m7 12.5 3.2 3.2L17 9" fill="none" stroke="#c9a227" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Plus de 20 000 € de chiffre d'affaires</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#24123f"/><path d="m7 12.5 3.2 3.2L17 9" fill="none" stroke="#c9a227" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>2 personnes employées</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#24123f"/><path d="m7 12.5 3.2 3.2L17 9" fill="none" stroke="#c9a227" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Plus de 25 000 abonnés</li>
+          </ul>
+        </div>
+      </article>
+      <div class="carte-paire">
+        <article class="carte">
+          <div class="carte-video">Vidéo d'Axel</div>
+          <div class="carte-corps">
+            <p class="carte-nom">Axel</p>
+            <div class="bandeau">140 000 vues sur sa toute première vidéo</div>
+            <ul class="coches">
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#24123f"/><path d="m7 12.5 3.2 3.2L17 9" fill="none" stroke="#c9a227" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>1 000 abonnés qualifiés directement, prêts à convertir</li>
+            </ul>
+          </div>
+        </article>
+        <article class="carte">
+          <div class="carte-video">Vidéo de Ronald</div>
+          <div class="carte-corps">
+            <p class="carte-nom">Ronald</p>
+            <div class="bandeau">120 000 vues</div>
+            <ul class="coches">
+              <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#24123f"/><path d="m7 12.5 3.2 3.2L17 9" fill="none" stroke="#c9a227" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Sur ses 3 premières vidéos</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+    <p class="mention">Résultats individuels, non garantis.</p>
+  </section>
+</div>
+
+<div class="page" id="vue-merci" hidden>
+  <div class="logo" aria-label="L'Académie des Sorciers">L'ACADÉMIE DES <span>SORCIERS</span></div>
+  <section class="merci">
+    <h1>Merci beaucoup pour tes réponses</h1>
+    <p>On te recontacte d'ici 72 heures maximum, principalement sur Instagram (compte professionnel) et/ou sur WhatsApp, pour fixer un appel avec toi.</p>
+    <p>Pour ne pas rater notre message, suis le compte de Louis : <a href="https://www.instagram.com/itslouismatys/" target="_blank" rel="noopener">@itslouismatys</a></p>
+    <p class="spams">Vérifie bien tes spams.</p>
+  </section>
+</div>
+
+<script>
+(function () {
+  var form = document.getElementById('formulaire');
+  var suite = document.getElementById('suite');
+  var erreur = document.getElementById('erreur');
+  var wa = document.getElementById('whatsapp');
+  var ig = document.getElementById('instagram');
+
+  // Les questions apparaissent dès que la personne commence à écrire.
+  function revele() {
+    if (!suite.hidden) return;
+    suite.hidden = false;
+    suite.classList.add('visible');
+  }
+  wa.addEventListener('input', revele);
+  ig.addEventListener('input', revele);
+
+  // Bouton son : la vraie vidéo remplacera l'emplacement.
+  var son = document.getElementById('bouton-son');
+  son.addEventListener('click', function () {
+    var actif = son.getAttribute('aria-pressed') !== 'true';
+    son.setAttribute('aria-pressed', String(actif));
+    son.querySelector('span').textContent = actif ? 'Son activé' : 'Touche pour activer le son';
+    var v = document.querySelector('.video-vsl video');
+    if (v) v.muted = !actif;
+  });
+
+  function valide(nom) {
+    var bloc = form.querySelector('[data-champ="' + nom + '"]');
+    var ok;
+    if (nom === 'q3') ok = !!form.querySelector('input[name="q3"]:checked');
+    else ok = form.elements[nom].value.trim().length > 0;
+    bloc.classList.toggle('invalide', !ok);
+    return ok;
+  }
+
+  form.addEventListener('input', function (e) {
+    var bloc = e.target.closest('.champ');
+    if (bloc && bloc.classList.contains('invalide')) valide(bloc.dataset.champ);
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    revele();
+    var noms = ['whatsapp', 'instagram', 'q1', 'q2', 'q3', 'q4', 'q5'];
+    var premier = null;
+    noms.forEach(function (n) { if (!valide(n) && !premier) premier = n; });
+    if (premier) {
+      erreur.hidden = false;
+      var cible = form.querySelector('[data-champ="' + premier + '"]');
+      cible.scrollIntoView({ block: 'center' });
+      var champ = cible.querySelector('input, textarea');
+      if (champ) champ.focus({ preventScroll: true });
+      return;
+    }
+    erreur.hidden = true;
+    document.getElementById('vue-page').hidden = true;
+    document.getElementById('vue-merci').hidden = false;
+    window.scrollTo(0, 0);
+  });
+})();
+</script>

@@ -154,3 +154,10 @@ Ce que ces documents ajoutent ou précisent par rapport aux sections ci-dessus :
 - Anna : le document 1 la présente comme ancienne gilet jaune, très révoltée contre le système, avec un angle santé + politique. Aucun chiffre n'y est cité.
 - Côté client, la règle du document 2 est "au tout début, TOFU et uniquement TOFU". Le 40/60 de la section 5 ne vaut que pour le compte B2B de l'Académie.
 - Point ouvert : l'onboarding promet en Ultra Premium "accès direct à Louis, vidéos illimitées, réponse en priorité", alors que la section 2 dit que le suivi illimité est ingérable. À trancher avec eux.
+
+## 11. Page de candidature (tunnel de l'Académie)
+
+- Brief freelance, version courte (10 octobre 2026) : `base/pdf/Brief freelance - version courte.pdf`. Il fait foi pour la structure et les textes de la page : logo texte, titre, vidéo, bouton, questionnaire qui se déroule, 3 études de cas, page de remerciement.
+- Charte en anglais (Brand guidelines) : `base/pdf/Brand guidelines - Académie des Sorciers EN.pdf`.
+- Maquette de la page : `tunnel/page-candidature.html`, publiée sur https://claude.ai/artifact/TFQJAnguNQ3xHrUPhGKNRs. C'est le modèle visuel pour le freelance : elle n'enregistre aucune candidature.
+- Conflit à trancher : le brief cite pour Anna "3 millions de vues / plus de 20 000 € / 2 personnes employées / plus de 25 000 abonnés", alors que la charte dit que le seul résultat en argent citable est "15 000 € sur une seule vidéo". Pour Axel, le brief dit "140 000 vues sur sa toute première vidéo", un chiffre qui ne figure dans aucun autre document.
