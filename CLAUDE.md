@@ -157,7 +157,9 @@ Ce que ces documents ajoutent ou précisent par rapport aux sections ci-dessus :
 
 ## 11. Page de candidature (tunnel de l'Académie)
 
-- Brief freelance, version courte (10 octobre 2026) : `base/pdf/Brief freelance - version courte.pdf`. Il fait foi pour la structure et les textes de la page : logo texte, titre, vidéo, bouton, questionnaire qui se déroule, 3 études de cas, page de remerciement.
-- Charte en anglais (Brand guidelines) : `base/pdf/Brand guidelines - Académie des Sorciers EN.pdf`.
-- Maquette de la page : `tunnel/page-candidature.html`, publiée sur https://claude.ai/artifact/TFQJAnguNQ3xHrUPhGKNRs. C'est le modèle visuel pour le freelance : elle n'enregistre aucune candidature.
-- Conflit à trancher : le brief cite pour Anna "3 millions de vues / plus de 20 000 € / 2 personnes employées / plus de 25 000 abonnés", alors que la charte dit que le seul résultat en argent citable est "15 000 € sur une seule vidéo". Pour Axel, le brief dit "140 000 vues sur sa toute première vidéo", un chiffre qui ne figure dans aucun autre document.
+- Brief freelance, version courte (10 octobre 2026) : `base/pdf/Brief freelance - version courte.pdf`. Structure de la page : logo, titre, vidéo, bouton, questionnaire qui se déroule, 3 études de cas, page de remerciement.
+- Charte en anglais (Brand guidelines) : `base/pdf/Brand guidelines - Académie des Sorciers EN.pdf`. Logo extrait dans `tunnel/assets/`.
+- Source unique de la page : `tunnel/src/page.html`. `python3 tunnel/build.py` fabrique la maquette (`tunnel/page-candidature.html`, publiée sur https://claude.ai/artifact/TFQJAnguNQ3xHrUPhGKNRs, n'envoie rien) et, avec `--envoi <URL Apps Script>`, la vraie page pour Netlify (`tunnel/site/index.html`).
+- Les candidatures vont dans un Google Sheet via `tunnel/google-sheet/Code.gs` (partielles et complètes, e-mail d'alerte, webhook facultatif vers GoHighLevel ou leur SaaS). Mode d'emploi : `tunnel/BRANCHEMENT.md`.
+- Décisions de Marco (14 octobre 2026) : logo en haut ; les questions apparaissent dès qu'on tape son Instagram ; le numéro WhatsApp doit être un vrai numéro, de n'importe quel pays, avec indicatif ; Axel = "Presque 500 000 vues sur ses 3 premières vidéos" + "2 500 abonnés directement qualifiés, prêts à convertir" ; Ronald = "120 000 vues" ; vidéos à venir.
+- Toujours à trancher : les chiffres d'Anna (le brief dit 3 millions de vues, plus de 20 000 €, 2 personnes employées, plus de 25 000 abonnés ; la charte dit 15 000 € sur une seule vidéo).
