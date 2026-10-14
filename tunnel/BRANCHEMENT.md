@@ -4,6 +4,12 @@ Résultat : chaque candidature arrive en temps réel dans un Google Sheet mis en
 - **Partielle** dès que WhatsApp et Instagram sont remplis, même si la personne abandonne ensuite. Les réponses se complètent au fur et à mesure qu'elle écrit.
 - **Complète** quand elle clique sur « Je dépose ma candidature ». Un e-mail part alors aux adresses choisies.
 
+Le script crée aussi :
+- un onglet **Visites** (une ligne par visite de la page) ;
+- un onglet **Tableau de bord** : visites, candidatures complètes et partielles, taux de conversion, taux d'abandon, candidatures en retard, répartition par tranche de revenus, par étape de suivi et par source, en total et sur 7 jours.
+
+Une candidature complète restée « À contacter » voit sa date passer en orange après 48 h et en rouge après 72 h : c'est la promesse faite au candidat.
+
 Le setter a ses propres colonnes (Setter, Suivi avec menu déroulant coloré, Notes) : le script n'y touche jamais. Instagram et WhatsApp sont des liens cliquables (le lien WhatsApp ouvre directement la conversation).
 
 Temps estimé : 15 minutes. Coût : 0 €.

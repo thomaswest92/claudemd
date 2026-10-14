@@ -19,10 +19,27 @@ COCHE = ('<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r=
          'stroke-linecap="round" stroke-linejoin="round"/></svg>')
 
 
+COCHE_PETITE = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.5 4 4L18 8" fill="none" stroke="#c9a227" '
+                'stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+FLECHE = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" '
+          'stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>')
+HORLOGE = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+           'stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>')
+BULLE = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+         'stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>')
+
+
+def logo_data() -> str:
+    return "data:image/png;base64," + base64.b64encode((ICI / "assets" / "logo-violet-200.png").read_bytes()).decode()
+
+
 def remplir(source: str, envoi: str) -> str:
-    logo = base64.b64encode((ICI / "assets" / "logo-violet-200.png").read_bytes()).decode()
-    return (source.replace("{{LOGO}}", "data:image/png;base64," + logo)
+    return (source.replace("{{LOGO}}", logo_data())
+                  .replace("{{COCHE_PETITE}}", COCHE_PETITE)
                   .replace("{{COCHE}}", COCHE)
+                  .replace("{{FLECHE}}", FLECHE)
+                  .replace("{{HORLOGE}}", HORLOGE)
+                  .replace("{{BULLE}}", BULLE)
                   .replace("{{ENDPOINT}}", envoi))
 
 
@@ -34,6 +51,11 @@ def page_complete(contenu: str) -> str:
             "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\">\n"
             "<title>L'Académie des Sorciers : dépose ta candidature</title>\n"
             "<meta name=\"description\" content=\"Deviens impossible à ignorer. Dépose ta candidature pour un appel.\">\n"
+            "<meta name=\"theme-color\" content=\"#ffffff\">\n"
+            "<meta property=\"og:title\" content=\"Deviens impossible à ignorer\">\n"
+            "<meta property=\"og:description\" content=\"Dépose ta candidature pour un appel avec L'Académie des Sorciers.\">\n"
+            "<meta property=\"og:type\" content=\"website\">\n"
+            "<link rel=\"icon\" type=\"image/png\" href=\"" + logo_data() + "\">\n"
             "<meta name=\"robots\" content=\"noindex\">\n")
     return tete + "</head>\n<body>\n" + contenu + "\n</body>\n</html>\n"
 

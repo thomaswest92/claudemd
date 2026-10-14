@@ -6,12 +6,16 @@
  * - "Partielle" dès que WhatsApp et Instagram sont remplis (même si la personne abandonne),
  * - "Complète" quand elle clique sur le bouton d'envoi.
  * Les colonnes Setter, Suivi et Notes sont pour le setter : le script n'y touche jamais.
+ * Onglet "Visites" : une ligne par visite de la page. Onglet "Tableau de bord" : les chiffres clés.
+ * Une candidature complète restée "À contacter" passe en orange après 48 h, en rouge après 72 h.
  *
  * Mise en place : voir tunnel/BRANCHEMENT.md.
  */
 
 var CONFIG = {
   ONGLET: 'Candidatures',
+  ONGLET_VISITES: 'Visites',
+  ONGLET_STATS: 'Tableau de bord',
   // Adresses qui reçoivent un e-mail à chaque candidature complète. Ex. : ['marco@exemple.com', 'louis@exemple.com']
   EMAILS: [],
   // Facultatif : URL d'un webhook entrant (GoHighLevel, votre SaaS, Zapier, Make...). Reçoit chaque candidature complète en JSON.
@@ -59,7 +63,14 @@ function installer() {
   // Couleurs : candidatures partielles en gris, suivi coloré
   var plage = sh.getRange(2, 1, max - 1, COLONNES.length);
   var lettreStatut = colonneEnLettre(COL['Statut']);
+  var lettreRecue = colonneEnLettre(COL['Reçue le']), lettreSuivi = colonneEnLettre(COL['Suivi']);
+  var colonneDate = sh.getRange(2, COL['Reçue le'], max - 1, 1);
+  var attente = '=AND($' + lettreStatut + '2="Complète",$' + lettreSuivi + '2="À contacter",NOW()-$' + lettreRecue + '2>';
   var regles = [
+    SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(attente + '3)')
+      .setBackground('#a3261d').setFontColor('#ffffff').setBold(true).setRanges([colonneDate]).build(),
+    SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(attente + '2)')
+      .setBackground('#f6d9a8').setFontColor('#6b4500').setBold(true).setRanges([colonneDate]).build(),
     SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=$' + lettreStatut + '2="Partielle"')
       .setFontColor('#8a849a').setItalic(true).setRanges([plage]).build(),
     regleSuivi('À contacter', '#f9f1d9', '#8a6a0b', sh),
@@ -73,6 +84,66 @@ function installer() {
   sh.getBandings().forEach(function (b) { b.remove(); });
   sh.getRange(1, 1, max, COLONNES.length).applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY, true, false)
     .setHeaderRowColor(VIOLET).setFirstRowColor('#ffffff').setSecondRowColor(BRUME);
+
+  installerVisites(ss);
+  installerTableauDeBord(ss);
+  ss.setActiveSheet(sh);
+}
+
+function installerVisites(ss) {
+  var v = ss.getSheetByName(CONFIG.ONGLET_VISITES) || ss.insertSheet(CONFIG.ONGLET_VISITES);
+  v.getRange(1, 1, 1, 2).setValues([['Date', 'Source']]).setBackground(VIOLET).setFontColor('#ffffff').setFontWeight('bold');
+  v.setFrozenRows(1);
+  v.setColumnWidth(1, 140); v.setColumnWidth(2, 260);
+  v.getRange(2, 1, v.getMaxRows() - 1, 1).setNumberFormat('dd/mm/yyyy HH:mm');
+}
+
+function installerTableauDeBord(ss) {
+  var t = ss.getSheetByName(CONFIG.ONGLET_STATS) || ss.insertSheet(CONFIG.ONGLET_STATS, 1);
+  t.clear();
+  var C = "'" + CONFIG.ONGLET + "'!", V = "'" + CONFIG.ONGLET_VISITES + "'!";
+  var L = function (nom) { return colonneEnLettre(COL[nom]); };
+  var st = C + L('Statut') + '2:' + L('Statut'), dt = C + L('Reçue le') + '2:' + L('Reçue le');
+  var su = C + L('Suivi') + '2:' + L('Suivi'), rv = C + L('Revenus mensuels') + '2:' + L('Revenus mensuels');
+  var vi = V + 'A2:A';
+
+  var lignes = [
+    ['Tableau de bord des candidatures', '', ''],
+    ['', 'Depuis le début', '7 derniers jours'],
+    ['Visites de la page', '=COUNTA(' + vi + ')', '=COUNTIF(' + vi + ',">="&(TODAY()-7))'],
+    ['Candidatures complètes', '=COUNTIF(' + st + ',"Complète")', '=COUNTIFS(' + st + ',"Complète",' + dt + ',">="&(TODAY()-7))'],
+    ['Candidatures partielles (abandons)', '=COUNTIF(' + st + ',"Partielle")', '=COUNTIFS(' + st + ',"Partielle",' + dt + ',">="&(TODAY()-7))'],
+    ['Taux de conversion (visite → candidature)', '=IFERROR(B4/B3,0)', '=IFERROR(C4/C3,0)'],
+    ['Taux d\'abandon du questionnaire', '=IFERROR(B5/(B4+B5),0)', '=IFERROR(C5/(C4+C5),0)'],
+    ['En retard : complètes, à contacter depuis plus de 72 h', '=COUNTIFS(' + st + ',"Complète",' + su + ',"À contacter",' + dt + ',"<"&(NOW()-3))', ''],
+    ['', '', ''],
+    ['Revenus mensuels (candidatures complètes)', 'Nombre', '']
+  ];
+  ['Moins de 2 000 €', '2 000 à 3 500 €', '3 500 à 5 000 €', '5 000 à 10 000 €', '10 000 à 30 000 €', 'Plus de 30 000 €'].forEach(function (r) {
+    lignes.push([r, '=COUNTIFS(' + st + ',"Complète",' + rv + ',"' + r + '")', '']);
+  });
+  lignes.push(['', '', '']);
+  lignes.push(['Suivi du setter', 'Nombre', '']);
+  SUIVI.forEach(function (x) { lignes.push([x, '=COUNTIF(' + su + ',"' + x + '")', '']); });
+  lignes.push(['', '', '']);
+  lignes.push(['Candidatures complètes par source', '', '']);
+  var debutSource = lignes.length + 1;
+  t.getRange(1, 1, lignes.length, 3).setValues(lignes);
+  var plageSource = C + L('Statut') + '2:' + L('Source');
+  t.getRange(debutSource, 1).setFormula('=IFERROR(QUERY({' + plageSource + '},"select Col' + (COL['Source'] - COL['Statut'] + 1) +
+    ', count(Col1) where Col1 = \'Complète\' group by Col' + (COL['Source'] - COL['Statut'] + 1) + ' label count(Col1) \'\'",0),"Pas encore de données")');
+
+  t.setColumnWidth(1, 380); t.setColumnWidth(2, 150); t.setColumnWidth(3, 150);
+  t.getRange('A1').setFontSize(18).setFontWeight('bold').setFontColor(VIOLET);
+  t.getRange('A2:C2').setFontWeight('bold').setFontColor('#5f5873');
+  t.getRange('B3:C8').setFontSize(14).setFontWeight('bold').setFontColor(VIOLET).setHorizontalAlignment('center');
+  t.getRange('B6:C7').setNumberFormat('0%');
+  t.getRange('A3:C8').setBackground(BRUME);
+  t.getRange('A8:B8').setFontColor('#a3261d');
+  [10, 18, debutSource - 1].forEach(function (r) {
+    t.getRange(r, 1, 1, 3).setBackground(VIOLET).setFontColor('#ffffff').setFontWeight('bold');
+  });
+  t.setFrozenRows(1);
 }
 
 function regleSuivi(valeur, fond, texte, sh) {
@@ -88,6 +159,12 @@ function doPost(e) {
     lock.waitLock(15000);
     var d = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (d.site) return reponse({ ok: true }); // champ piège rempli : robot
+    if (d.type === 'visite') {
+      var v = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.ONGLET_VISITES);
+      if (!v) { installerVisites(SpreadsheetApp.getActiveSpreadsheet()); v = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.ONGLET_VISITES); }
+      v.appendRow([new Date(), texte(String(d.source || '').slice(0, 300))]);
+      return reponse({ ok: true });
+    }
     if (!d.id || !/^[A-Za-z0-9-]{8,64}$/.test(String(d.id))) return reponse({ ok: false, erreur: 'id' });
 
     var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CONFIG.ONGLET);
