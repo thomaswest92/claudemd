@@ -173,3 +173,13 @@ Ce que ces documents ajoutent ou précisent par rapport aux sections ci-dessus :
 - Adresse de la page de candidature (Marco, 16 octobre 2026) : https://academiedessorciers.app/ . Les e-mails des alertes seront demandés par le Claude de Louis. Message à copier pour Louis : `integration/MESSAGE-POUR-LOUIS.md`.
 - Tableau du setter (maquette V3) : vue d'ensemble compacte (lead, résumé, reçu, argent, process, qualité, conversation, prochaine action, dernier message, call), chaque ligne se déplie avec les 5 réponses et tout le suivi ; bouton pour tout déplier.
 - Toujours à trancher : les chiffres d'Anna (le brief dit 3 millions de vues, plus de 20 000 €, 2 personnes employées, plus de 25 000 abonnés ; la charte dit 15 000 € sur une seule vidéo).
+
+## 12. Travail sur la plateforme (dépôt academiesorcier/academie-des-sorciers)
+
+- Code de la plateforme : https://github.com/academiesorcier/academie-des-sorciers (Supabase, déployée par Vercel). Après récupération : `npm install`, puis lire et appliquer le CLAUDE.md de ce dépôt.
+- Identité git : user.name « Marco », user.email « 129163562+thomaswest92@users.noreply.github.com » (sinon Vercel bloque les envois).
+- Règles pour ne pas se marcher dessus avec Louis :
+  - avant de commencer : récupérer la dernière version ;
+  - une fois fini : envoyer les changements sur GitHub (le site se met à jour tout seul en une minute) ;
+  - avant de toucher à la base de données ou à une grosse partie (l'outil setter par exemple) : prévenir Louis sur WhatsApp ;
+  - si on a modifié la même chose en même temps : montrer les deux versions et demander laquelle garder, ne rien écraser.
