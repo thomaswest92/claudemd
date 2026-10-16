@@ -163,7 +163,6 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .securite { margin: 0; font-size: 13px; color: var(--encre-douce); text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .securite { flex-wrap: wrap; }
 .securite svg { width: 14px; height: 14px; }
-.consentement { margin: 0; font-size: 13px; line-height: 1.45; color: var(--encre-douce); text-align: center; }
 .lien-legal { color: var(--encre-douce); text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- Témoignages ---------- */
@@ -260,7 +259,6 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
       <a class="cta monte d3" id="cta-hero" href="#candidature">Je dépose ma candidature <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <ul class="rassurance monte d4">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>5 questions, 5 minutes maximum</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>On te recontacte sous 48 h</li>
       </ul>
     </div>
   </header>
@@ -270,7 +268,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
     <div class="colonne">
       <div class="carte-form">
         <header>
-          <h2 id="titre-candidature">Dépose ta candidature pour un appel</h2>
+          <h2 id="titre-candidature">Dépose ta candidature</h2>
         </header>
 
         <ol class="etapes" aria-label="Comment ça se passe">
@@ -279,13 +277,8 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
           <li><span class="n">3</span><span><b>On s'appelle</b></span></li>
         </ol>
 
-        <ul class="raisons">
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#c9a227"/><path d="m7 12.5 3.2 3.2L17 9" fill="none" stroke="#24123f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>On lit chaque candidature nous-mêmes : on ne prend que les projets qu'on peut vraiment faire décoller.</span></li>
-        </ul>
-
         <form id="formulaire" novalidate>
           <div class="bloc-contact">
-            <p class="etiquette"><span>Où te répondre</span></p>
             <div class="champ" data-champ="whatsapp">
               <label for="whatsapp">Ton numéro WhatsApp</label>
               <div class="tel">
@@ -312,7 +305,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
           <div class="piege" aria-hidden="true"><label for="site">Site</label><input id="site" name="site" type="text" tabindex="-1" autocomplete="off"></div>
 
           <div class="suite" id="suite" hidden>
-            <p class="relance">Parfait. Plus tes réponses sont précises, plus l'appel sera utile pour toi.</p>
+            <p class="relance">Parfait. Plus tes réponses sont précises, plus vite on te recontacte.</p>
             <div class="barre-prog">
               <div class="piste"><div class="rempli" id="rempli"></div></div>
               <span id="progression" aria-live="polite">0 sur 5</span>
@@ -322,7 +315,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
               <textarea class="saisie" id="q1" name="q1" required></textarea>
             </div>
             <div class="champ" data-champ="q2">
-              <label for="q2"><span class="num">2.</span>Décris-nous précisément ton activité / idée que tu veux développer (qui sont tes clients, services proposés, ou ton projet en cours ou futur...)</label>
+              <label for="q2"><span class="num">2.</span>Décris ton activité ou ton projet : ce que tu proposes, à qui (tes clients), et où tu en es (ça tourne déjà, tu lances, ou c'est une idée).</label>
               <textarea class="saisie" id="q2" name="q2" required></textarea>
             </div>
             <fieldset class="champ" data-champ="q3">
@@ -350,8 +343,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
           <div class="envoi">
             <p class="erreur" id="erreur" role="alert" hidden></p>
             <button class="cta" id="bouton-envoi" type="submit"><span>Je dépose ma candidature</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-            <p class="consentement">En déposant ta candidature, tu acceptes d'être contacté par WhatsApp et Instagram.</p>
-            <p class="securite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Tes réponses restent entre nous. <a href="#confidentialite" class="lien-legal">Mentions légales et confidentialité</a></p>
+            <p class="securite"><a href="#confidentialite" class="lien-legal">Mentions légales et confidentialité</a></p>
           </div>
         </form>
       </div>
@@ -473,7 +465,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
         <li>Ton numéro WhatsApp et ton nom d'utilisateur Instagram.</li>
         <li>Tes réponses aux 5 questions du questionnaire, y compris ta tranche de revenus et ce que tu écris sur ta situation financière.</li>
         <li>Un commentaire, si tu en ajoutes un après l'envoi.</li>
-        <li>La date et l'heure de ton consentement à être contacté.</li>
+        <li>La date et l'heure de l'envoi de ta candidature.</li>
         <li>Le lien par lequel tu es arrivé sur la page (par exemple le compte Instagram d'où vient le lien).</li>
         <li>Ton adresse IP, utilisée seulement pour bloquer les envois abusifs, et conservée [À REMPLIR : durée].</li>
         <li>Des statistiques de visite anonymes : pages vues, clics sur le bouton, part de la vidéo regardée. Elles sont comptées sans cookie et ne servent qu'à nous.</li>
@@ -483,7 +475,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 
       <h2>Pourquoi on les utilise</h2>
       <ul>
-        <li>Étudier ta candidature et te recontacter par WhatsApp ou Instagram pour fixer un appel. Base : ton consentement, donné en déposant ta candidature.</li>
+        <li>Étudier ta candidature et te recontacter par WhatsApp ou Instagram pour fixer un appel. Base : ta demande. En déposant ta candidature, tu nous demandes de te recontacter.</li>
         <li>Mesurer l'audience de la page et protéger le formulaire contre les abus. Base : notre intérêt légitime.</li>
       </ul>
       <p>On ne vend pas tes données et on ne t'envoie aucun message automatique : c'est une personne de notre équipe qui te contacte.</p>
@@ -527,6 +519,13 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   var brouillon = lire();
   if (!brouillon.id || brouillon.envoye) brouillon = { id: nouvelId() };
 
+  // Paramètres du lien (utm_*) et site d'origine, envoyés avec chaque événement.
+  var utm = (function () {
+    var o = {};
+    try { var p = new URLSearchParams(location.search); ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (k) { if (p.get(k)) o[k.slice(4)] = p.get(k).slice(0, 100); }); } catch (e) {}
+    try { if (document.referrer) o.referrer = new URL(document.referrer).hostname; } catch (e) {}
+    return o;
+  })();
   var source = (function () {
     try {
       var p = new URLSearchParams(location.search), out = [];
@@ -546,10 +545,17 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
     try {
       if (!sessionStorage.getItem('sorciers-visite')) {
         sessionStorage.setItem('sorciers-visite', '1');
-        poste({ type: 'visite', source: source }).catch(function () {});
+        poste({ type: 'visite', source: source, utm: utm }).catch(function () {});
       }
     } catch (e) {}
   }
+
+  // Clic sur un bouton "Je dépose ma candidature" qui mène au questionnaire (compté une fois par visite).
+  document.addEventListener('click', function (e) {
+    if (!ENVOI_URL || !e.target.closest('a.cta[href="#candidature"]')) return;
+    try { if (sessionStorage.getItem('sorciers-clic')) return; sessionStorage.setItem('sorciers-clic', '1'); } catch (err) {}
+    poste({ type: 'clic_cta', source: source, utm: utm }).catch(function () {});
+  });
 
   // ---------- Pays et indicatifs ----------
   var nomsPays = null;
@@ -643,7 +649,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   function charge(statut) {
     var n = lireNumero(), i = lireInstagram(), r = reponses();
     return { type: 'candidature', id: brouillon.id, statut: statut, whatsapp: n.ok ? n.e164 : wa.value.trim(), whatsapp_valide: !!n.ok,
-      instagram: i.nom, sans_instagram: !!i.sans, q1: r.q1, q2: r.q2, q3: r.q3, q4: r.q4, q5: r.q5, source: source, page: location.href.split('#')[0], site: $('site').value };
+      utm: utm, instagram: i.nom, sans_instagram: !!i.sans, q1: r.q1, q2: r.q2, q3: r.q3, q4: r.q4, q5: r.q5, source: source, page: location.href.split('#')[0], site: $('site').value };
   }
   var dernierEnvoi = '';
   function envoiPartiel() {
@@ -657,7 +663,6 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
     if (!ENVOI_URL) return new Promise(function (ok) { setTimeout(ok, 600); });
     var delai = new Promise(function (_, ko) { setTimeout(function () { ko(new Error('délai')); }, 12000); });
     var c = charge('complète');
-    c.consentement = { texte: "En déposant ta candidature, tu acceptes d'être contacté par WhatsApp et Instagram.", le: new Date().toISOString() };
     return Promise.race([poste(c, true), delai]);
   }
 
