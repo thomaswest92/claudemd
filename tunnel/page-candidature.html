@@ -128,6 +128,9 @@ textarea.saisie { min-height: 112px; resize: vertical; }
 .etat svg { width: 20px; height: 20px; animation: pop .3s ease both; }
 @keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
 .ig { position: relative; }
+.sans-ig { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; font-size: 14px !important; font-weight: 500 !important; color: var(--encre-douce) !important; cursor: pointer; padding: 4px 0; }
+.sans-ig input { width: 18px; height: 18px; margin: 0; accent-color: var(--violet-500); }
+.saisie:disabled { background: var(--brume); color: var(--encre-douce); border-style: dashed; }
 .ig .etat { position: absolute; right: 2px; top: 6px; height: 40px; }
 
 .relance { margin: 0; padding: 12px 14px; border-radius: var(--rayon-m); background: var(--or-100); color: var(--or-700); font-size: 14px; font-weight: 500; line-height: 1.45; text-align: center; }
@@ -139,12 +142,17 @@ textarea.saisie { min-height: 112px; resize: vertical; }
 
 fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .radios { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
-.radio { display: flex; align-items: center; gap: 8px; min-height: 52px; background: var(--blanc); border: 1.5px solid var(--ligne); border-radius: var(--rayon-m); padding: 10px; cursor: pointer; font-weight: 500; font-size: 14px; white-space: nowrap; line-height: 1.25; font-variant-numeric: tabular-nums; transition: border-color .15s ease, background .15s ease, color .15s ease; }
+.radio { display: flex; align-items: center; gap: 10px; min-height: 52px; background: var(--blanc); border: 1.5px solid var(--ligne); border-radius: var(--rayon-m); padding: 10px 12px; cursor: pointer; font-weight: 500; font-size: 14px; white-space: nowrap; line-height: 1.25; color: var(--encre); font-variant-numeric: tabular-nums; transition: border-color .15s ease, background .15s ease, box-shadow .15s ease; }
 .radio:hover { border-color: var(--violet-500); }
-.radio:has(input:checked) { border-color: var(--violet-900); background: var(--violet-900); color: var(--blanc); }
-.radio input { accent-color: var(--or-500); width: 18px; height: 18px; margin: 0; flex: none; }
+.radio input { -webkit-appearance: none; appearance: none; flex: none; width: 20px; height: 20px; margin: 0; border-radius: 50%; border: 2px solid var(--violet-500); background: var(--blanc); display: grid; place-items: center; cursor: pointer; transition: border-color .15s ease; }
+.radio input::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--violet-900); transform: scale(0); transition: transform .15s ease; }
+.radio input:checked { border-color: var(--violet-900); }
+.radio input:checked::after { transform: scale(1); }
+.radio:has(input:checked) { border-color: var(--violet-900); border-width: 2px; background: var(--lilas); font-weight: 700; color: var(--violet-900); box-shadow: 0 0 0 3px var(--or-100); }
+.radio input:focus-visible { outline: 3px solid var(--violet-500); outline-offset: 2px; }
 .champ.invalide .radio { border-color: #e2b4b0; }
-@media (max-width: 350px) { .radios { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .radios { grid-template-columns: 1fr; gap: 6px; } .radio { min-height: 48px; font-size: 15px; } }
+.envoi .cta { font-size: 18px; padding-inline: 16px; }
 .suite { display: flex; flex-direction: column; gap: 20px; }
 .suite.visible > * { animation: monte .5s cubic-bezier(.2,.7,.2,1) both; }
 .suite.visible > *:nth-child(2) { animation-delay: .06s; } .suite.visible > *:nth-child(3) { animation-delay: .12s; }
@@ -153,7 +161,10 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .erreur { color: var(--rouge); font-size: 14px; margin: 0; }
 .piege { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .securite { margin: 0; font-size: 13px; color: var(--encre-douce); text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.securite { flex-wrap: wrap; }
 .securite svg { width: 14px; height: 14px; }
+.consentement { margin: 0; font-size: 13px; line-height: 1.45; color: var(--encre-douce); text-align: center; }
+.lien-legal { color: var(--encre-douce); text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- Témoignages ---------- */
 .temoignages { background: var(--violet-900); color: var(--blanc); padding-block: 48px 40px; }
@@ -201,13 +212,6 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 @keyframes trace-coche { from { stroke-dashoffset: 40; } to { stroke-dashoffset: 0; } }
 .sceau i { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: var(--or-500); top: 50%; left: 50%; opacity: 0; animation: eclat .9s .35s ease-out both; }
 @keyframes eclat { 0% { opacity: 1; transform: translate(-50%, -50%) rotate(var(--a)) translateY(0); } 100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--a)) translateY(-62px); } }
-.action-wa { background: var(--blanc); border: 1.5px solid var(--violet-900); border-radius: var(--rayon-xl); padding: 22px 18px; display: flex; flex-direction: column; gap: 12px; }
-.action-wa .grand { margin: 0; font-family: var(--titres); font-weight: 800; font-size: 23px; line-height: 1.2; letter-spacing: -.01em; color: var(--violet-900); }
-.action-wa p { margin: 0; font-size: 15px; color: var(--encre-douce); }
-.bouton-wa { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; background: var(--wa); color: var(--blanc); text-decoration: none; border-radius: var(--rayon-m); padding: 15px 18px; font: 700 18px/1.2 var(--titres); }
-.bouton-wa svg { width: 22px; height: 22px; }
-.bouton-wa.desactive { opacity: .55; pointer-events: none; }
-.note-demo { font-size: 13px; color: var(--or-700); }
 .encadre { background: var(--violet-900); color: var(--blanc); border-radius: var(--rayon-xl); padding: 22px 18px; display: flex; flex-direction: column; gap: 12px; }
 .encadre .etiquette { color: var(--or-500); }
 .encadre p { margin: 0; }
@@ -218,7 +222,21 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .recap dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; }
 .recap dt { color: var(--encre-douce); font-size: 14px; }
 .recap dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 0; overflow-wrap: anywhere; }
+.recap-actions { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.commentaire { display: flex; flex-direction: column; gap: 8px; }
+.commentaire label { font-weight: 600; font-size: 15px; }
+.commentaire textarea { min-height: 96px; }
+.cta.petit { min-height: 48px; padding: 12px 18px; font-size: 16px; }
+.ok-commentaire { margin: 0; font-size: 14px; color: var(--vert); font-weight: 600; }
 .lien-discret { background: none; border: 0; padding: 0; font: 500 14px/1.4 var(--texte); color: var(--violet-500); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; align-self: flex-start; }
+
+.legal { padding-block: 24px 64px; }
+.legal .colonne { display: flex; flex-direction: column; gap: 12px; }
+.legal h1 { font-size: clamp(30px, 8vw, 40px); text-align: left; margin: 8px 0 0; }
+.legal h2 { font-size: 21px; margin-top: 16px; }
+.legal p, .legal li { margin: 0; font-size: 15px; line-height: 1.6; max-width: 65ch; }
+.legal ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.legal .maj { color: var(--encre-douce); font-size: 13px; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
 </style>
@@ -253,17 +271,15 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
       <div class="carte-form">
         <header>
           <h2 id="titre-candidature">Dépose ta candidature pour un appel</h2>
-          <p class="sous-titre">5 questions, 5 minutes maximum</p>
         </header>
 
         <ol class="etapes" aria-label="Comment ça se passe">
-          <li class="actif"><span class="n">1</span><span><b>Tu candidates</b>5 minutes</span></li>
+          <li class="actif"><span class="n">1</span><span><b>Tu candidates</b></span></li>
           <li><span class="n">2</span><span><b>On te recontacte</b>sous 48 h</span></li>
-          <li><span class="n">3</span><span><b>On s'appelle</b>en direct</span></li>
+          <li><span class="n">3</span><span><b>On s'appelle</b></span></li>
         </ol>
 
         <ul class="raisons">
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#c9a227"/><path d="m7 12.5 3.2 3.2L17 9" fill="none" stroke="#24123f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Un appel gratuit et sans engagement, pour parler de ton projet.</span></li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#c9a227"/><path d="m7 12.5 3.2 3.2L17 9" fill="none" stroke="#24123f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>On lit chaque candidature nous-mêmes : on ne prend que les projets qu'on peut vraiment faire décoller.</span></li>
         </ul>
 
@@ -290,6 +306,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
                 <span class="etat" id="etat-instagram" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
               </div>
               <p class="aide" id="aide-instagram" hidden></p>
+              <label class="sans-ig"><input type="checkbox" id="pas-instagram" name="pas_instagram"><span>Je n'ai pas de compte Instagram</span></label>
             </div>
           </div>
           <div class="piege" aria-hidden="true"><label for="site">Site</label><input id="site" name="site" type="text" tabindex="-1" autocomplete="off"></div>
@@ -321,7 +338,8 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
             </fieldset>
             <div class="champ" data-champ="q4">
               <label for="q4"><span class="num">4.</span>Comment décrirais-tu ta situation financière actuellement ?</label>
-              <textarea class="saisie" id="q4" name="q4" required></textarea>
+              <p class="aide" id="aide-q4">Tu peux aussi détailler ta réponse à la question 3.</p>
+              <textarea class="saisie" id="q4" name="q4" required aria-describedby="aide-q4"></textarea>
             </div>
             <div class="champ" data-champ="q5">
               <label for="q5"><span class="num">5.</span>Explique-nous ton rapport aux réseaux sociaux (ce que tu as déjà fait ou tes idées)</label>
@@ -332,7 +350,8 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
           <div class="envoi">
             <p class="erreur" id="erreur" role="alert" hidden></p>
             <button class="cta" id="bouton-envoi" type="submit"><span>Je dépose ma candidature</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-            <p class="securite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Tes réponses restent entre nous.</p>
+            <p class="consentement">En déposant ta candidature, tu acceptes d'être contacté par WhatsApp et Instagram.</p>
+            <p class="securite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Tes réponses restent entre nous. <a href="#confidentialite" class="lien-legal">Mentions légales et confidentialité</a></p>
           </div>
         </form>
       </div>
@@ -402,15 +421,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
           <i style="--a:0deg"></i><i style="--a:45deg"></i><i style="--a:90deg"></i><i style="--a:135deg"></i><i style="--a:180deg"></i><i style="--a:225deg"></i><i style="--a:270deg"></i><i style="--a:315deg"></i>
         </div>
         <h1 id="titre-merci" tabindex="-1">Merci beaucoup pour tes réponses</h1>
-        <p class="chapo">On te recontacte d'ici <strong>48 heures maximum</strong>, principalement sur Instagram (compte professionnel) et/ou sur WhatsApp, pour fixer un appel avec toi.</p>
-      </div>
-
-      <div class="action-wa">
-        <p class="etiquette">Dernière étape, 10 secondes</p>
-        <p class="grand">Confirme ta candidature sur WhatsApp</p>
-        <p>Envoie-nous le message déjà écrit : comme ça, notre conversation est ouverte et tu ne rates pas notre réponse.</p>
-        <a class="bouton-wa" id="bouton-wa" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.2-.2-.4-.3z"/></svg>Confirmer sur WhatsApp</a>
-        <p class="note-demo" id="note-demo" hidden>Maquette : le numéro WhatsApp de l'Académie n'est pas encore renseigné.</p>
+        <p class="chapo">On te recontacte d'ici <strong>48 heures maximum</strong>, principalement sur Instagram et/ou sur WhatsApp, pour fixer un appel avec toi.</p>
       </div>
 
       <div class="encadre">
@@ -426,8 +437,70 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
           <dt>Instagram</dt><dd id="recap-instagram"></dd>
           <dt>WhatsApp</dt><dd id="recap-whatsapp"></dd>
         </dl>
-        <button class="lien-discret" id="corriger" type="button">Une erreur ? Corrige-la</button>
+        <div class="recap-actions">
+          <button class="lien-discret" id="corriger" type="button">Une erreur ? Corrige-la</button>
+          <button class="lien-discret" id="ouvrir-commentaire" type="button">Ajouter un commentaire</button>
+        </div>
+        <div class="commentaire" id="bloc-commentaire" hidden>
+          <label for="commentaire">Ton commentaire</label>
+          <textarea class="saisie" id="commentaire" maxlength="1000"></textarea>
+          <button class="cta petit" id="envoyer-commentaire" type="button"><span>Envoyer</span></button>
+        </div>
+        <p class="ok-commentaire" id="ok-commentaire" role="status" hidden>Merci, ton commentaire est ajouté à ta candidature.</p>
       </div>
+    </div>
+  </section>
+</div>
+
+<!-- Mentions légales et confidentialité -->
+<div id="vue-legal" hidden>
+  <section class="bande legal">
+    <div class="colonne">
+      <a href="#" class="lien-discret" id="retour-legal">Retour</a>
+      <h1>Mentions légales et confidentialité</h1>
+      <p class="maj">Dernière mise à jour : [À REMPLIR]</p>
+
+      <h2>Éditeur et responsable du traitement</h2>
+      <p>L'Académie des Sorciers LLC, société enregistrée au Nouveau-Mexique (États-Unis).<br>
+      Adresse : [À REMPLIR]<br>
+      Numéro d'enregistrement : [À REMPLIR]<br>
+      Responsable de la publication : [À REMPLIR]<br>
+      Contact pour tes données : [À REMPLIR : adresse e-mail]<br>
+      Hébergement de la page : [À REMPLIR : nom, adresse]</p>
+
+      <h2>Les données qu'on collecte</h2>
+      <ul>
+        <li>Ton numéro WhatsApp et ton nom d'utilisateur Instagram.</li>
+        <li>Tes réponses aux 5 questions du questionnaire, y compris ta tranche de revenus et ce que tu écris sur ta situation financière.</li>
+        <li>Un commentaire, si tu en ajoutes un après l'envoi.</li>
+        <li>La date et l'heure de ton consentement à être contacté.</li>
+        <li>Le lien par lequel tu es arrivé sur la page (par exemple le compte Instagram d'où vient le lien).</li>
+        <li>Ton adresse IP, utilisée seulement pour bloquer les envois abusifs, et conservée [À REMPLIR : durée].</li>
+        <li>Des statistiques de visite anonymes : pages vues, clics sur le bouton, part de la vidéo regardée. Elles sont comptées sans cookie et ne servent qu'à nous.</li>
+      </ul>
+      <p>Si tu commences le questionnaire sans le terminer, ce que tu as déjà rempli (au minimum ton WhatsApp et ton Instagram) est enregistré, pour qu'on puisse te recontacter.</p>
+      <p>Tes réponses sont aussi gardées dans ton navigateur pendant que tu remplis le questionnaire, pour ne pas les perdre si la page se recharge. Elles ne quittent pas ton téléphone par ce moyen.</p>
+
+      <h2>Pourquoi on les utilise</h2>
+      <ul>
+        <li>Étudier ta candidature et te recontacter par WhatsApp ou Instagram pour fixer un appel. Base : ton consentement, donné en déposant ta candidature.</li>
+        <li>Mesurer l'audience de la page et protéger le formulaire contre les abus. Base : notre intérêt légitime.</li>
+      </ul>
+      <p>On ne vend pas tes données et on ne t'envoie aucun message automatique : c'est une personne de notre équipe qui te contacte.</p>
+
+      <h2>Traitement automatisé de tes réponses</h2>
+      <p>Pour aider notre équipe à lire les candidatures, tes réponses sont analysées par un outil d'intelligence artificielle (Claude, de la société Anthropic). Il propose une indication sur ta situation financière. Aucune décision n'est prise automatiquement : une personne de notre équipe lit chaque candidature et décide.</p>
+
+      <h2>Qui y a accès</h2>
+      <p>Seule notre équipe (direction, setter, closers) y a accès. Nos prestataires techniques les traitent pour notre compte : [À REMPLIR : hébergement de la base de données et sa région], Anthropic (analyse des réponses), [À REMPLIR : hébergeur de la vidéo], [À REMPLIR : service d'envoi d'e-mails].</p>
+      <p>Transferts hors de l'Union européenne : [À REMPLIR : pays concernés et garanties utilisées].</p>
+
+      <h2>Combien de temps on les garde</h2>
+      <p>[À REMPLIR : durée de conservation, par exemple à compter du dernier échange avec toi.] Les candidatures partielles sont supprimées au bout de [À REMPLIR].</p>
+
+      <h2>Tes droits</h2>
+      <p>Tu peux demander à consulter, corriger ou supprimer tes données, t'opposer à leur utilisation, en limiter l'usage ou les récupérer. Écris-nous à [À REMPLIR : adresse e-mail]. On te répond sous un mois au maximum.</p>
+      <p>Tu peux aussi déposer une réclamation auprès de la CNIL (cnil.fr).</p>
     </div>
   </section>
 </div>
@@ -437,7 +510,6 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 (function () {
   // Réglages remplis par build.py. Vides = mode maquette : rien n'est envoyé.
   var ENVOI_URL = '';
-  var WHATSAPP_ACADEMIE = ''; // ex. 33612345678, sans + ni espaces
 
   var $ = function (id) { return document.getElementById(id); };
   var form = $('formulaire'), suite = $('suite'), erreur = $('erreur');
@@ -524,13 +596,15 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   }
 
   // ---------- Instagram ----------
+  var sansIg = $('pas-instagram');
   function lireInstagram() {
+    if (sansIg.checked) return { nom: '', ok: true, sans: true };
     var v = ig.value.trim().replace(/^https?:\/\/(www\.)?instagram\.com\//i, '').replace(/[/?#].*$/, '').replace(/^@+/, '');
     return { nom: v, ok: /^[A-Za-z0-9._]{1,30}$/.test(v) && !/^\.|\.$|\.\./.test(v) };
   }
   function verifieInstagram(afficherErreur) {
     var r = lireInstagram(), bloc = ig.closest('.champ'), aide = $('aide-instagram');
-    $('etat-instagram').hidden = !r.ok;
+    $('etat-instagram').hidden = !r.ok || !!r.sans;
     bloc.classList.toggle('valide', r.ok);
     if (r.ok || !afficherErreur) { bloc.classList.remove('invalide'); aide.hidden = true; }
     else {
@@ -548,6 +622,12 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
     majProgression();
   }
   ig.addEventListener('input', function () { revele(true); verifieInstagram(false); sauve(); });
+  sansIg.addEventListener('change', function () {
+    ig.disabled = sansIg.checked;
+    if (sansIg.checked) { ig.value = ''; revele(true); }
+    verifieInstagram(false);
+    sauve(); envoiPartiel();
+  });
 
   function reponses() {
     var q3 = form.querySelector('input[name="q3"]:checked');
@@ -563,7 +643,7 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   function charge(statut) {
     var n = lireNumero(), i = lireInstagram(), r = reponses();
     return { type: 'candidature', id: brouillon.id, statut: statut, whatsapp: n.ok ? n.e164 : wa.value.trim(), whatsapp_valide: !!n.ok,
-      instagram: i.nom, q1: r.q1, q2: r.q2, q3: r.q3, q4: r.q4, q5: r.q5, source: source, page: location.href.split('#')[0], site: $('site').value };
+      instagram: i.nom, sans_instagram: !!i.sans, q1: r.q1, q2: r.q2, q3: r.q3, q4: r.q4, q5: r.q5, source: source, page: location.href.split('#')[0], site: $('site').value };
   }
   var dernierEnvoi = '';
   function envoiPartiel() {
@@ -576,14 +656,17 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   function envoiComplet() {
     if (!ENVOI_URL) return new Promise(function (ok) { setTimeout(ok, 600); });
     var delai = new Promise(function (_, ko) { setTimeout(function () { ko(new Error('délai')); }, 12000); });
-    return Promise.race([poste(charge('complète'), true), delai]);
+    var c = charge('complète');
+    c.consentement = { texte: "En déposant ta candidature, tu acceptes d'être contacté par WhatsApp et Instagram.", le: new Date().toISOString() };
+    return Promise.race([poste(c, true), delai]);
   }
 
   // ---------- Brouillon ----------
-  function sauve() { brouillon.pays = pays.value; brouillon.wa = wa.value; brouillon.ig = ig.value; brouillon.r = reponses(); ecrire(brouillon); }
+  function sauve() { brouillon.pays = pays.value; brouillon.wa = wa.value; brouillon.ig = ig.value; brouillon.sansIg = sansIg.checked; brouillon.r = reponses(); ecrire(brouillon); }
   function restaure() {
     if (brouillon.wa) wa.value = brouillon.wa;
     if (brouillon.ig) ig.value = brouillon.ig;
+    if (brouillon.sansIg) { sansIg.checked = true; ig.disabled = true; revele(false); }
     if (brouillon.r) {
       ['q1', 'q2', 'q4', 'q5'].forEach(function (k) { if (brouillon.r[k]) $(k).value = brouillon.r[k]; });
       if (brouillon.r.q3) { var b = form.querySelector('input[name="q3"][value="' + brouillon.r.q3 + '"]'); if (b) b.checked = true; }
@@ -641,14 +724,8 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   // ---------- Remerciement ----------
   function afficheMerci() {
     var n = lireNumero(), i = lireInstagram();
-    $('recap-instagram').textContent = '@' + i.nom;
+    $('recap-instagram').textContent = i.sans ? 'Pas de compte Instagram' : '@' + i.nom;
     $('recap-whatsapp').textContent = n.joli || wa.value;
-    var lien = $('bouton-wa');
-    if (WHATSAPP_ACADEMIE) {
-      var texte = "Salut, c'est @" + i.nom + ". Je viens de déposer ma candidature sur la page de l'Académie des Sorciers.";
-      lien.href = 'https://wa.me/' + WHATSAPP_ACADEMIE + '?text=' + encodeURIComponent(texte);
-      lien.addEventListener('click', function () { if (ENVOI_URL) poste({ type: 'whatsapp', id: brouillon.id }).catch(function () {}); }, { once: true });
-    } else { lien.classList.add('desactive'); $('note-demo').hidden = false; }
     $('vue-page').hidden = true;
     $('vue-merci').hidden = false;
     window.scrollTo(0, 0);
@@ -661,6 +738,39 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
     try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
     $('candidature').scrollIntoView({ block: 'start' });
     wa.focus({ preventScroll: true });
+  });
+
+  // ---------- Commentaire ajouté après l'envoi ----------
+  $('ouvrir-commentaire').addEventListener('click', function () {
+    $('bloc-commentaire').hidden = false; $('ok-commentaire').hidden = true; $('commentaire').focus();
+  });
+  $('envoyer-commentaire').addEventListener('click', function () {
+    var t = $('commentaire').value.trim();
+    if (!t) { $('commentaire').focus(); return; }
+    var fini = function () { $('bloc-commentaire').hidden = true; $('commentaire').value = ''; $('ok-commentaire').hidden = false; };
+    if (!ENVOI_URL) { fini(); return; }
+    poste({ type: 'commentaire', id: brouillon.id, texte: t.slice(0, 1000) }, true).then(fini, function () {
+      $('ok-commentaire').hidden = false; $('ok-commentaire').textContent = "L'envoi n'a pas marché, réessaie dans un instant.";
+    });
+  });
+
+  // ---------- Page Mentions légales et confidentialité (#confidentialite) ----------
+  var vueAvant = 'vue-page';
+  function routeLegale() {
+    var legal = location.hash === '#confidentialite';
+    if (legal) {
+      vueAvant = $('vue-merci').hidden ? 'vue-page' : 'vue-merci';
+      $('vue-page').hidden = true; $('vue-merci').hidden = true; $('vue-legal').hidden = false;
+      window.scrollTo(0, 0);
+    } else if (!$('vue-legal').hidden) {
+      $('vue-legal').hidden = true; $(vueAvant).hidden = false;
+    }
+  }
+  window.addEventListener('hashchange', routeLegale);
+  $('retour-legal').addEventListener('click', function (e) {
+    e.preventDefault();
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (err) {}
+    routeLegale(); $('vue-legal').hidden = true; $(vueAvant).hidden = false;
   });
 
   // ---------- Barre collante : visible quand ni le bouton du haut ni le questionnaire ne sont à l'écran ----------
@@ -684,5 +794,6 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 
   remplirPays();
   restaure();
+  routeLegale();
 })();
 </script>

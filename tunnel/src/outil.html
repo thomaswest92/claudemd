@@ -1,0 +1,573 @@
+<title>Outil setter Sorciers</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Maquette de l'outil de travail : vue setter (téléphone), vue closer et vue admin (ordinateur).
+   Même charte que la page de candidature. Thème clair unique, par choix. */
+:root {
+  color-scheme: light;
+  --blanc: #ffffff; --brume: #f6f2fb; --lilas: #e9e1f6; --ligne: #ded5ec;
+  --violet-900: #24123f; --violet-700: #3d1f73; --violet-500: #6a48b8;
+  --or-500: #c9a227; --or-700: #8a6a0b; --or-100: #f9f1d9;
+  --encre: #1d1730; --encre-douce: #5f5873;
+  --vert: #1f7a4d; --vert-fond: #dcefe4; --jaune: #8a6a0b; --jaune-fond: #f9f1d9;
+  --rouge: #a3261d; --rouge-fond: #f6e0dd; --gris: #5f5873; --gris-fond: #ececf1;
+  --orange: #a65400; --orange-fond: #fbe5cc;
+  --wa: #128c4a;
+  --titres: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --texte: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r-s: 8px; --r-m: 12px; --r-l: 18px;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--brume); color: var(--encre); font: 15px/1.5 var(--texte); -webkit-font-smoothing: antialiased; }
+button, select, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--violet-500); outline-offset: 2px; }
+
+/* Bandeau de la maquette et choix du rôle */
+.maquette { background: var(--violet-900); color: var(--blanc); padding: 10px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.maquette p { margin: 0; font-size: 13px; color: #cfc3e6; flex: 1 1 260px; }
+.maquette p b { color: var(--or-500); }
+.roles { display: flex; gap: 4px; background: rgba(255,255,255,.08); padding: 4px; border-radius: 999px; }
+.roles button { border: 0; background: transparent; color: #cfc3e6; padding: 7px 14px; border-radius: 999px; font-weight: 600; font-size: 14px; }
+.roles button[aria-pressed="true"] { background: var(--or-500); color: var(--violet-900); }
+
+/* Coquille commune */
+.app { padding: 16px max(16px, env(safe-area-inset-right, 0px)) 48px max(16px, env(safe-area-inset-left, 0px)); }
+.tete-app { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.marque { display: flex; align-items: center; gap: 8px; }
+.marque img { width: 30px; height: auto; display: block; }
+.marque b { font: 800 12px/1 var(--titres); letter-spacing: .16em; text-transform: uppercase; color: var(--violet-900); }
+.marque b span { color: var(--or-700); }
+.qui { font-size: 13px; color: var(--encre-douce); }
+h1 { font: 800 28px/1.1 var(--titres); letter-spacing: -.02em; color: var(--violet-900); margin: 0; }
+h2 { font: 700 18px/1.25 var(--titres); color: var(--violet-900); margin: 0; display: flex; align-items: center; gap: 8px; }
+h2 .compte { font: 700 13px/1 var(--texte); background: var(--violet-900); color: var(--or-500); border-radius: 999px; padding: 4px 8px; }
+.sous { margin: 0; font-size: 13px; color: var(--encre-douce); }
+.exemple { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--or-700); background: var(--or-100); border-radius: 999px; padding: 2px 8px; }
+
+/* Onglets */
+.onglets { display: flex; gap: 4px; background: var(--blanc); border: 1px solid var(--ligne); border-radius: 999px; padding: 4px; margin: 12px 0 18px; overflow-x: auto; }
+.onglets button { flex: 1 0 auto; border: 0; background: transparent; padding: 9px 14px; border-radius: 999px; font-weight: 600; color: var(--encre-douce); white-space: nowrap; }
+.onglets button[aria-pressed="true"] { background: var(--violet-900); color: var(--blanc); }
+
+/* Vue setter : colonne téléphone */
+.tel { max-width: 480px; margin: 0 auto; }
+.section { display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px; }
+.section > header { display: flex; flex-direction: column; gap: 2px; }
+
+/* Carte lead */
+.lead { background: var(--blanc); border: 1px solid var(--ligne); border-radius: var(--r-l); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.lead-haut { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.lead-nom { font: 700 17px/1.2 var(--titres); color: var(--violet-900); margin: 0; background: none; border: 0; padding: 0; text-align: left; }
+.lead-nom small { display: block; font: 500 13px/1.4 var(--texte); color: var(--encre-douce); margin-top: 2px; }
+.puces { display: flex; flex-wrap: wrap; gap: 6px; }
+.puce { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 600; line-height: 1.3; white-space: nowrap; }
+.puce::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex: none; }
+.puce.sans-point::before { display: none; }
+.vert { color: var(--vert); background: var(--vert-fond); }
+.jaune { color: var(--jaune); background: var(--jaune-fond); }
+.rouge { color: var(--rouge); background: var(--rouge-fond); }
+.gris { color: var(--gris); background: var(--gris-fond); }
+.orange { color: var(--orange); background: var(--orange-fond); }
+.neutre { color: var(--violet-700); background: var(--lilas); }
+.chrono { font-variant-numeric: tabular-nums; }
+.explication { margin: 0; font-size: 13px; color: var(--encre-douce); line-height: 1.45; }
+.explication b { color: var(--encre); }
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.actions select.statut { grid-column: 1 / -1; }
+.bouton { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; border-radius: var(--r-m); border: 1.5px solid var(--ligne); background: var(--blanc); font-weight: 600; font-size: 14px; color: var(--violet-900); text-decoration: none; padding: 8px 10px; }
+.bouton svg { width: 18px; height: 18px; flex: none; }
+.bouton.wa { background: var(--wa); border-color: var(--wa); color: var(--blanc); }
+.bouton.principal { background: var(--or-500); border-color: var(--or-500); color: var(--violet-900); }
+.bouton.violet { background: var(--violet-900); border-color: var(--violet-900); color: var(--blanc); }
+select.statut { min-height: 44px; border-radius: var(--r-m); border: 1.5px solid var(--violet-500); background: var(--blanc); padding: 8px 10px; font-weight: 600; font-size: 14px; color: var(--violet-900); width: 100%; }
+.prochaine { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; background: var(--brume); border-radius: var(--r-m); padding: 8px 10px; }
+.prochaine svg { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--violet-500); }
+.prochaine.retard { background: var(--rouge-fond); color: var(--rouge); }
+.vide { margin: 0; padding: 16px; border: 1.5px dashed var(--ligne); border-radius: var(--r-l); text-align: center; color: var(--encre-douce); font-size: 14px; background: var(--blanc); }
+
+/* Filtres */
+.filtres { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+.filtres label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: var(--encre-douce); }
+.filtres select { min-height: 40px; border-radius: var(--r-s); border: 1.5px solid var(--ligne); background: var(--blanc); padding: 6px 8px; font-size: 14px; }
+
+/* Messages */
+.message { background: var(--blanc); border: 1px solid var(--ligne); border-radius: var(--r-l); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.message h3 { margin: 0; font: 700 15px/1.3 var(--titres); color: var(--violet-900); }
+.message blockquote { margin: 0; padding: 10px 12px; background: var(--brume); border-radius: var(--r-m); white-space: pre-wrap; font-size: 15px; }
+.message .a-fournir { color: var(--or-700); font-style: italic; }
+
+/* Fiche lead (plein écran sur téléphone, panneau sur ordinateur) */
+.fiche-fond { position: fixed; inset: 0; background: rgba(36,18,63,.45); z-index: 20; display: flex; justify-content: flex-end; }
+.fiche { width: min(560px, 100%); height: 100%; background: var(--brume); overflow-y: auto; padding: calc(12px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(32px + env(safe-area-inset-bottom, 0px)) 16px; display: flex; flex-direction: column; gap: 14px; animation: glisse .25s ease both; }
+@keyframes glisse { from { transform: translateX(30px); opacity: 0; } to { transform: none; opacity: 1; } }
+.fiche-haut { display: flex; justify-content: space-between; align-items: center; gap: 10px; position: sticky; top: calc(-12px - env(safe-area-inset-top, 0px)); background: var(--brume); padding: 8px 0; z-index: 1; }
+.fermer { border: 0; background: var(--blanc); border-radius: 999px; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--ligne); }
+.fermer svg { width: 18px; height: 18px; }
+.bloc { background: var(--blanc); border: 1px solid var(--ligne); border-radius: var(--r-l); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+.bloc > h3 { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--or-700); display: flex; justify-content: space-between; gap: 8px; }
+.argent { display: flex; flex-direction: column; gap: 8px; }
+.argent .ligne { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.argent .brut { background: var(--brume); border-radius: var(--r-m); padding: 10px 12px; font-size: 14px; }
+.argent .brut b { display: block; font-size: 12px; color: var(--encre-douce); font-weight: 600; margin-bottom: 2px; }
+.alerte { display: flex; gap: 8px; align-items: flex-start; background: var(--orange-fond); color: var(--orange); border-radius: var(--r-m); padding: 8px 10px; font-size: 13px; font-weight: 500; }
+.alerte svg { width: 16px; height: 16px; flex: none; margin-top: 2px; }
+.reponses { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.reponses dt { font-size: 12px; font-weight: 600; color: var(--encre-douce); }
+.reponses dd { margin: 2px 0 0; font-size: 14px; white-space: pre-wrap; }
+.champs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.champs .large { grid-column: 1 / -1; }
+.champs label, .champs fieldset { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: var(--encre-douce); border: 0; padding: 0; margin: 0; min-width: 0; }
+.champs legend { padding: 0; margin-bottom: 4px; }
+.champs input, .champs select, .champs textarea { min-height: 42px; border-radius: var(--r-s); border: 1.5px solid var(--ligne); background: var(--blanc); padding: 8px 10px; font-size: 15px; font-weight: 400; color: var(--encre); width: 100%; }
+.champs textarea { min-height: 70px; resize: vertical; }
+.champs .obligatoire::after { content: " *"; color: var(--rouge); }
+.cases { display: flex; flex-wrap: wrap; gap: 6px; }
+.cases label { flex-direction: row; align-items: center; gap: 6px; border: 1.5px solid var(--ligne); border-radius: 999px; padding: 6px 12px; font-size: 13px; color: var(--encre); background: var(--blanc); cursor: pointer; }
+.cases label:has(input:checked) { border-color: var(--violet-900); background: var(--lilas); font-weight: 700; }
+.cases input { accent-color: var(--violet-900); margin: 0; }
+.historique { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+.historique li { display: grid; grid-template-columns: 92px 1fr; gap: 8px; border-bottom: 1px solid var(--ligne); padding-bottom: 8px; }
+.historique time { color: var(--encre-douce); font-variant-numeric: tabular-nums; }
+.historique s { color: var(--encre-douce); }
+.doublon svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+.doublon { display: flex; gap: 8px; align-items: flex-start; background: var(--rouge-fond); color: var(--rouge); border-radius: var(--r-m); padding: 10px 12px; font-size: 13px; font-weight: 600; }
+
+/* Vues ordinateur (closer, admin) */
+.bureau { max-width: 1180px; margin: 0 auto; }
+.grille-closer { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .grille-closer { grid-template-columns: 1fr; } }
+.liste-calls { display: flex; flex-direction: column; gap: 8px; }
+.call { background: var(--blanc); border: 1.5px solid var(--ligne); border-radius: var(--r-l); padding: 12px 14px; display: grid; grid-template-columns: 64px 1fr; gap: 12px; text-align: left; width: 100%; }
+.call[aria-pressed="true"] { border-color: var(--violet-900); box-shadow: 0 0 0 3px var(--lilas); }
+.call .heure { font: 800 20px/1 var(--titres); color: var(--violet-900); font-variant-numeric: tabular-nums; }
+.call .jour { display: block; font: 600 12px/1.3 var(--texte); color: var(--encre-douce); margin-top: 4px; }
+.call b { font-family: var(--titres); color: var(--violet-900); }
+.detail-closer { display: flex; flex-direction: column; gap: 12px; }
+.chiffres { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.chiffre { background: var(--blanc); border: 1px solid var(--ligne); border-radius: var(--r-l); padding: 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.chiffre span { font-size: 12px; font-weight: 600; color: var(--encre-douce); }
+.chiffre strong { font: 800 28px/1.05 var(--titres); color: var(--violet-900); font-variant-numeric: tabular-nums; }
+.chiffre small { font-size: 12px; color: var(--encre-douce); }
+.admin-grille { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; margin-top: 16px; }
+@media (max-width: 900px) { .admin-grille { grid-template-columns: 1fr; } }
+.entonnoir { display: flex; flex-direction: column; gap: 8px; }
+.etage { display: grid; grid-template-columns: 170px 1fr 56px; gap: 10px; align-items: center; font-size: 14px; }
+.etage .barre { height: 26px; background: var(--brume); border-radius: 6px; overflow: hidden; }
+.etage .barre i { display: block; height: 100%; background: var(--violet-900); border-radius: 6px; }
+.etage:nth-child(n+5) .barre i { background: var(--or-500); }
+.etage b { text-align: right; font-variant-numeric: tabular-nums; }
+.etage small { display: block; font-size: 11px; color: var(--encre-douce); }
+.tableau { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tableau th { text-align: left; font-size: 12px; font-weight: 600; color: var(--encre-douce); padding: 8px; border-bottom: 1.5px solid var(--ligne); }
+.tableau td { padding: 10px 8px; border-bottom: 1px solid var(--ligne); font-variant-numeric: tabular-nums; }
+.tableau td.n { text-align: right; }
+.defile { overflow-x: auto; }
+.barre-outils { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.periode { display: flex; gap: 4px; background: var(--blanc); border: 1px solid var(--ligne); border-radius: 999px; padding: 4px; }
+.periode button { border: 0; background: transparent; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--encre-douce); }
+.periode button[aria-pressed="true"] { background: var(--violet-900); color: var(--blanc); }
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--violet-900); color: var(--blanc); padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 600; z-index: 40; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="maquette">
+  <p><b>Maquette.</b> Toutes les personnes et tous les chiffres ci-dessous sont des exemples inventés pour montrer l'outil. Rien n'est enregistré.</p>
+  <div class="roles" role="group" aria-label="Voir l'outil en tant que">
+    <button type="button" data-role="setter" aria-pressed="true">Setter</button>
+    <button type="button" data-role="closer" aria-pressed="false">Closer</button>
+    <button type="button" data-role="admin" aria-pressed="false">Admin</button>
+  </div>
+</div>
+
+<!-- ============ VUE SETTER (téléphone) ============ -->
+<main class="app" id="vue-setter">
+  <div class="tel">
+    <div class="tete-app">
+      <div class="marque"><img src="{{LOGO}}" alt="" width="30" height="27"><b>Académie des <span>Sorciers</span></b></div>
+      <span class="qui">Connecté : setter</span>
+    </div>
+    <div class="onglets" role="group" aria-label="Sections">
+      <button type="button" data-onglet="aujourdhui" aria-pressed="true">Aujourd'hui</button>
+      <button type="button" data-onglet="tous" aria-pressed="false">Tous les leads</button>
+      <button type="button" data-onglet="messages" aria-pressed="false">Messages</button>
+    </div>
+
+    <div id="o-aujourdhui">
+      <h1>Aujourd'hui</h1>
+      <p class="sous" id="date-du-jour" style="margin-bottom:18px"></p>
+      <section class="section">
+        <header><h2>Nouveaux leads <span class="compte" id="n-nouveaux"></span></h2><p class="sous">Pas encore contactés. Triés par signal argent, puis du plus ancien au plus récent.</p></header>
+        <div id="liste-nouveaux"></div>
+      </section>
+      <section class="section">
+        <header><h2>À relancer <span class="compte" id="n-relances"></span></h2><p class="sous">Relances prévues aujourd'hui ou en retard, et leads sans réponse depuis 48 h.</p></header>
+        <div id="liste-relances"></div>
+      </section>
+      <section class="section">
+        <header><h2>Calls du jour <span class="compte" id="n-calls"></span></h2></header>
+        <div id="liste-calls-jour"></div>
+      </section>
+    </div>
+
+    <div id="o-tous" hidden>
+      <h1>Tous les leads</h1>
+      <p class="sous" style="margin-bottom:14px">Filtre, puis change le statut directement depuis la liste.</p>
+      <div class="filtres">
+        <label>Statut<select id="f-statut"></select></label>
+        <label>Qualité<select id="f-qualite"></select></label>
+        <label>Signal argent<select id="f-argent"></select></label>
+        <label>Source<select id="f-source"></select></label>
+        <label style="grid-column:1/-1">Closer<select id="f-closer"></select></label>
+      </div>
+      <div class="section" id="liste-tous"></div>
+    </div>
+
+    <div id="o-messages" hidden>
+      <h1>Messages</h1>
+      <p class="sous" style="margin-bottom:14px">Copie, colle dans WhatsApp ou Instagram, personnalise. Les textes sont modifiables par l'admin.</p>
+      <div class="section" id="liste-messages"></div>
+    </div>
+  </div>
+</main>
+
+<!-- ============ VUE CLOSER (ordinateur) ============ -->
+<main class="app" id="vue-closer" hidden>
+  <div class="bureau">
+    <div class="tete-app">
+      <div class="marque"><img src="{{LOGO}}" alt="" width="30" height="27"><b>Académie des <span>Sorciers</span></b></div>
+      <span class="qui">Connecté : closer (exemple : Closer A)</span>
+    </div>
+    <h1 style="margin-bottom:14px">Mes calls</h1>
+    <div class="grille-closer">
+      <div class="liste-calls" id="liste-calls-closer"></div>
+      <div class="detail-closer" id="detail-closer"></div>
+    </div>
+  </div>
+</main>
+
+<!-- ============ VUE ADMIN (ordinateur) ============ -->
+<main class="app" id="vue-admin" hidden>
+  <div class="bureau">
+    <div class="tete-app">
+      <div class="marque"><img src="{{LOGO}}" alt="" width="30" height="27"><b>Académie des <span>Sorciers</span></b></div>
+      <span class="qui">Connecté : admin</span>
+    </div>
+    <div class="barre-outils">
+      <h1>Statistiques <span class="exemple">Chiffres d'exemple</span></h1>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div class="periode" role="group" aria-label="Période">
+          <button type="button" aria-pressed="false">7 jours</button><button type="button" aria-pressed="true">30 jours</button><button type="button" aria-pressed="false">Tout</button>
+        </div>
+        <select class="statut" style="width:auto;min-height:38px" aria-label="Source"><option>Toutes les sources</option><option>Compte de Louis</option><option>Compte commun</option></select>
+        <button class="bouton" type="button" id="export">Exporter en CSV</button>
+      </div>
+    </div>
+
+    <div class="admin-grille">
+      <section class="bloc">
+        <h3>Entonnoir de la page</h3>
+        <div class="entonnoir">
+          <div class="etage"><span>Visites de la page</span><div class="barre"><i style="width:100%"></i></div><b>1 240</b></div>
+          <div class="etage"><span>Vidéo regardée à 25 %</span><div class="barre"><i style="width:58%"></i></div><b>720</b></div>
+          <div class="etage"><span>à 50 %</span><div class="barre"><i style="width:39%"></i></div><b>480</b></div>
+          <div class="etage"><span>à 75 %</span><div class="barre"><i style="width:26%"></i></div><b>320</b></div>
+          <div class="etage"><span>à 100 %</span><div class="barre"><i style="width:15%"></i></div><b>190</b></div>
+          <div class="etage"><span>Clics « Je dépose ma candidature »</span><div class="barre"><i style="width:17%"></i></div><b>210</b></div>
+          <div class="etage"><span>Questionnaires commencés<small>candidatures partielles</small></span><div class="barre"><i style="width:9%"></i></div><b>115</b></div>
+          <div class="etage"><span>Questionnaires terminés</span><div class="barre"><i style="width:6%"></i></div><b>74</b></div>
+        </div>
+      </section>
+      <section class="bloc">
+        <h3>Pipeline</h3>
+        <div class="chiffres">
+          <div class="chiffre"><span>Délai moyen avant 1er contact</span><strong>9 h</strong><small>objectif : moins de 24 h</small></div>
+          <div class="chiffre"><span>Taux de réponse</span><strong>61 %</strong><small>leads qui répondent au setter</small></div>
+          <div class="chiffre"><span>Calls réalisés</span><strong>23</strong></div>
+          <div class="chiffre"><span>Taux de closing</span><strong>26 %</strong><small>6 ventes sur 23 calls</small></div>
+          <div class="chiffre" style="grid-column:1/-1"><span>Montant total closé</span><strong>[exemple]</strong><small>visible par l'admin seulement</small></div>
+        </div>
+        <div class="defile"><table class="tableau">
+          <thead><tr><th>Statut</th><th style="text-align:right">Leads</th></tr></thead>
+          <tbody><tr><td>Nouveau</td><td class="n">8</td></tr><tr><td>Prise de contact</td><td class="n">21</td></tr><tr><td>Éducation</td><td class="n">14</td></tr><tr><td>Proposition</td><td class="n">7</td></tr><tr><td>Rendez-vous</td><td class="n">9</td></tr><tr><td>Pas intéressé</td><td class="n">15</td></tr></tbody>
+        </table></div>
+      </section>
+    </div>
+
+    <section class="bloc" style="margin-top:16px">
+      <h3>Activité du setter</h3>
+      <div class="defile"><table class="tableau">
+        <thead><tr><th>Setter</th><th style="text-align:right">Contactés</th><th style="text-align:right">Relances faites</th><th style="text-align:right">En retard (+48 h)</th><th style="text-align:right">Calls posés</th><th style="text-align:right">Dernière action</th></tr></thead>
+        <tbody>
+          <tr><td>Setter (exemple)</td><td class="n">52</td><td class="n">38</td><td class="n" style="color:var(--rouge);font-weight:700">3</td><td class="n">17</td><td class="n">il y a 25 min</td></tr>
+        </tbody>
+      </table></div>
+      <p class="sous">L'admin voit tout : chaque lead, l'historique de chaque modification et les montants de tous les closers.</p>
+    </section>
+  </div>
+</main>
+
+<div class="fiche-fond" id="fiche-fond" hidden><div class="fiche" id="fiche" role="dialog" aria-modal="true" aria-labelledby="fiche-titre"></div></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var H = 3600 * 1000, maintenant = Date.now();
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+
+  var STATUTS = ['Nouveau', 'Prise de contact', 'Éducation', 'Proposition', 'Rendez-vous', 'Pas intéressé'];
+  var QUALITES = ['Inconnu', 'Chaud', 'Tiède', 'À travailler', 'Pas de retour'];
+  var ARGENT = { vert: 'Vert', jaune: 'Jaune', rouge: 'Rouge', gris: 'Inconnu' };
+  var CLOSERS = ['Closer A', 'Closer B'];
+  var PROBLEMES = ['Argent', 'Méconnaissance des réseaux', 'Projet inconnu', 'Autre'];
+
+  // Exemples inventés pour la maquette
+  var leads = [
+    { id: 1, ig: 'exemple.coach.lyon', wa: '+33 6 11 22 33 44', nom: '', depot: maintenant - 31 * H, statut: 'Nouveau', qualite: 'Inconnu', source: 'Compte de Louis', tranche: '5 000 à 10 000 €',
+      argent: 'jaune', argentIA: 'jaune', explication: 'Tranche haute, mais le texte parle d\'un prêt à rembourser.', incoherence: true,
+      r: ['Exemple : coach sportif depuis 6 ans, deux enfants.', 'Exemple : coaching en entreprise, 12 clients réguliers.', '5 000 à 10 000 €', 'Exemple : ça va, mais j\'ai encore un prêt pour ma salle.', 'Exemple : jamais posté de vidéo.'] },
+    { id: 2, ig: 'exemple.artisan', wa: '+33 7 55 44 33 22', nom: '', depot: maintenant - 9 * H, statut: 'Nouveau', qualite: 'Inconnu', source: 'Compte commun', tranche: 'Plus de 30 000 €',
+      argent: 'vert', argentIA: 'vert', explication: 'Tranche haute, texte cohérent : entreprise stable avec salariés.',
+      r: ['Exemple : artisan menuisier, 3 salariés.', 'Exemple : cuisines sur mesure pour particuliers.', 'Plus de 30 000 €', 'Exemple : entreprise rentable, je peux investir.', 'Exemple : une page Instagram que je n\'alimente pas.'] },
+    { id: 3, ig: 'exemple.consultante', wa: '+32 470 12 34 56', nom: '', depot: maintenant - 52 * H, statut: 'Nouveau', qualite: 'Inconnu', source: 'Compte de Louis', tranche: 'Moins de 2 000 €',
+      argent: 'jaune', argentIA: 'jaune', explication: 'Moins de 2 000 € par mois, mais le texte parle de 300 000 € de CA à l\'année : à vérifier.', incoherence: true,
+      r: ['Exemple : consultante RH en freelance.', 'Exemple : missions longues pour des PME.', 'Moins de 2 000 €', 'Exemple : je me verse peu, mais la société fait environ 300 000 € par an.', 'Exemple : LinkedIn uniquement.'] },
+    { id: 4, ig: 'exemple.projet', wa: '+33 6 98 76 54 32', nom: '', depot: maintenant - 3 * H, statut: 'Nouveau', qualite: 'Inconnu', source: 'Compte de Louis', tranche: 'Moins de 2 000 €',
+      argent: 'rouge', argentIA: 'rouge', explication: 'Moins de 2 000 € et texte qui confirme : pas de marge pour investir.',
+      r: ['Exemple : salarié, je veux me lancer.', 'Exemple : idée de marque de vêtements.', 'Moins de 2 000 €', 'Exemple : je suis à découvert en fin de mois.', 'Exemple : je regarde beaucoup de vidéos.'] },
+    { id: 5, ig: 'exemple.formatrice', wa: '+33 6 12 12 12 12', nom: 'Exemple Claire', depot: maintenant - 80 * H, statut: 'Éducation', qualite: 'Tiède', source: 'Compte commun', tranche: '3 500 à 5 000 €',
+      argent: 'jaune', argentIA: 'jaune', explication: 'Tranche moyenne, texte neutre.', dernier: { le: maintenant - 50 * H, resume: 'Exemple : lui a envoyé une vidéo sur le compte de Louis.' },
+      action: { quoi: 'Relancer après la vidéo envoyée', le: maintenant - 2 * H }, r: ['Exemple', 'Exemple', '3 500 à 5 000 €', 'Exemple', 'Exemple'] },
+    { id: 6, ig: 'exemple.immo', wa: '+41 79 123 45 67', nom: 'Exemple Marc', depot: maintenant - 120 * H, statut: 'Prise de contact', qualite: 'Pas de retour', source: 'Compte de Louis', tranche: '10 000 à 30 000 €',
+      argent: 'vert', argentIA: 'vert', explication: 'Tranche haute, agence immobilière en activité.', dernier: { le: maintenant - 49 * H, resume: 'Exemple : premier message envoyé, pas de réponse.' },
+      action: { quoi: 'Relancer sur Instagram', le: maintenant + 4 * H }, r: ['Exemple', 'Exemple', '10 000 à 30 000 €', 'Exemple', 'Exemple'] },
+    { id: 7, ig: 'exemple.osteo', wa: '+33 6 45 45 45 45', nom: 'Exemple Sophie', depot: maintenant - 96 * H, statut: 'Rendez-vous', qualite: 'Chaud', source: 'Compte commun', tranche: '5 000 à 10 000 €',
+      argent: 'vert', argentIA: 'vert', explication: 'Tranche haute, cabinet qui tourne.', call: { le: new Date(new Date().setHours(17, 30, 0, 0)).getTime(), closer: 'Closer A' },
+      action: { quoi: 'Rappel du call à 16 h', le: new Date(new Date().setHours(16, 0, 0, 0)).getTime() }, r: ['Exemple', 'Exemple', '5 000 à 10 000 €', 'Exemple', 'Exemple'] },
+    { id: 8, ig: 'exemple.coach.lyon', wa: '+33 6 11 22 33 44', nom: '', depot: maintenant - 1 * H, statut: 'Nouveau', qualite: 'Inconnu', source: 'Compte commun', tranche: '5 000 à 10 000 €',
+      argent: 'jaune', argentIA: 'jaune', explication: 'Même numéro et même Instagram qu\'un lead déjà reçu.', doublonDe: 1, r: ['Exemple', 'Exemple', '5 000 à 10 000 €', 'Exemple', 'Exemple'] }
+  ];
+  var historiques = {
+    7: [{ le: maintenant - 96 * H, qui: 'Page', quoi: 'Candidature déposée' }, { le: maintenant - 94 * H, qui: 'Setter', quoi: 'Statut', avant: 'Nouveau', apres: 'Prise de contact' }, { le: maintenant - 70 * H, qui: 'Setter', quoi: 'Qualité', avant: 'Inconnu', apres: 'Chaud' }, { le: maintenant - 30 * H, qui: 'Setter', quoi: 'Statut', avant: 'Proposition', apres: 'Rendez-vous' }]
+  };
+  var messages = [
+    { titre: 'Premier message', texte: "Salut, comment tu vas ? J'ai vu ton projet, il est super cool." , note: 'Règle du guide setter : premier message humain, puis tout de suite une question ouverte.' },
+    { titre: 'Question ouverte 1', texte: null },
+    { titre: 'Question ouverte 2', texte: null },
+    { titre: 'Relance après 48 h sans réponse', texte: null }
+  ];
+
+  // ---------- Petits outils ----------
+  function heure(t) { return new Date(t).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); }
+  function jour(t) { return new Date(t).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' }); }
+  function depuis(t) {
+    var h = Math.floor((maintenant - t) / H);
+    if (h < 1) return 'il y a moins d\'1 h';
+    if (h < 48) return 'il y a ' + h + ' h';
+    return 'il y a ' + Math.floor(h / 24) + ' j';
+  }
+  function urgence(l) { var h = (maintenant - l.depot) / H; return h < 24 ? 'vert' : h < 48 ? 'orange' : 'rouge'; }
+  var ICONES = {
+    wa: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>',
+    ig: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg>',
+    copier: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>',
+    horloge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    alerte: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>',
+    fermer: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>'
+  };
+  function lienWa(l) { return 'https://wa.me/' + l.wa.replace(/\D/g, ''); }
+  function lienIg(l) { return 'https://www.instagram.com/' + l.ig + '/'; }
+  function toast(t) { var e = $('toast'); e.textContent = t; e.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function () { e.hidden = true; }, 1800); }
+  function copier(texte) {
+    var fini = function () { toast('Message copié'); };
+    try { navigator.clipboard.writeText(texte).then(fini, function () { secours(texte); }); } catch (e) { secours(texte); }
+  }
+  function secours(texte) {
+    var t = document.createElement('textarea'); t.value = texte; document.body.appendChild(t); t.select();
+    try { document.execCommand('copy'); toast('Message copié'); } catch (e) { toast('Sélectionne le texte et copie-le'); }
+    t.remove();
+  }
+  function puceArgent(l) { return '<span class="puce ' + l.argent + '">Argent : ' + ARGENT[l.argent] + (l.argentManuel ? ' (corrigé)' : '') + '</span>'; }
+  function options(liste, valeur, vide) { return (vide ? '<option value="">' + vide + '</option>' : '') + liste.map(function (x) { return '<option' + (x === valeur ? ' selected' : '') + '>' + esc(x) + '</option>'; }).join(''); }
+  var ORDRE_ARGENT = { vert: 0, jaune: 1, gris: 2, rouge: 3 };
+
+  // ---------- Carte lead ----------
+  function carte(l, mode) {
+    var titre = l.nom ? esc(l.nom) : '@' + esc(l.ig);
+    var sous = l.nom ? '@' + esc(l.ig) + ' · ' + esc(l.wa) : esc(l.wa);
+    var puces = puceArgent(l);
+    if (l.statut === 'Nouveau') puces += '<span class="puce ' + urgence(l) + ' chrono">' + depuis(l.depot) + '</span>';
+    puces += '<span class="puce neutre sans-point">' + esc(l.source) + '</span>';
+    if (l.qualite !== 'Inconnu') puces += '<span class="puce gris sans-point">' + esc(l.qualite) + '</span>';
+    var html = '<article class="lead">' +
+      '<div class="lead-haut"><button class="lead-nom" type="button" data-ouvrir="' + l.id + '">' + titre + '<small>' + sous + '</small></button></div>' +
+      (l.doublonDe ? '<div class="doublon">' + ICONES.alerte + '<span>Doublon possible : même numéro et même Instagram qu\'un lead reçu ' + depuis(lead(l.doublonDe).depot) + '.</span></div>' : '') +
+      '<div class="puces">' + puces + '</div>' +
+      '<p class="explication"><b>' + esc(l.tranche) + '</b> · ' + esc(l.explication) + '</p>';
+    if (mode === 'relance' && l.action) {
+      var retard = l.action.le < maintenant;
+      html += '<div class="prochaine' + (retard ? ' retard' : '') + '">' + ICONES.horloge + '<span><b>' + esc(l.action.quoi) + '</b> · ' + (retard ? 'en retard, prévu ' : 'prévu ') + jour(l.action.le) + ' ' + heure(l.action.le) + (l.dernier ? '<br>Dernier message : ' + depuis(l.dernier.le) + ', ' + esc(l.dernier.resume) : '') + '</span></div>';
+    }
+    if (mode === 'call' && l.call) html += '<div class="prochaine">' + ICONES.horloge + '<span><b>Call à ' + heure(l.call.le) + '</b> avec ' + esc(l.call.closer) + '</span></div>';
+    html += '<div class="actions">' +
+      '<a class="bouton wa" href="' + lienWa(l) + '" target="_blank" rel="noopener">' + ICONES.wa + 'WhatsApp</a>' +
+      '<a class="bouton" href="' + lienIg(l) + '" target="_blank" rel="noopener">' + ICONES.ig + 'Instagram</a>' +
+      '<select class="statut" data-statut="' + l.id + '" aria-label="Statut">' + options(STATUTS, l.statut) + '</select>' +
+      '</div></article>';
+    return html;
+  }
+  function lead(id) { return leads.find(function (l) { return l.id === Number(id); }); }
+
+  // ---------- Vue setter ----------
+  function rendreAujourdhui() {
+    $('date-du-jour').textContent = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+    var nouveaux = leads.filter(function (l) { return l.statut === 'Nouveau'; })
+      .sort(function (a, b) { return (ORDRE_ARGENT[a.argent] - ORDRE_ARGENT[b.argent]) || (a.depot - b.depot); });
+    var relances = leads.filter(function (l) {
+      if (l.statut === 'Nouveau' || l.statut === 'Pas intéressé') return false;
+      var sansReponse = l.dernier && maintenant - l.dernier.le > 48 * H;
+      var prevue = l.action && l.action.le < maintenant + 24 * H && !l.call;
+      return sansReponse || prevue;
+    });
+    var calls = leads.filter(function (l) { return l.call && new Date(l.call.le).toDateString() === new Date().toDateString(); });
+    $('n-nouveaux').textContent = nouveaux.length; $('n-relances').textContent = relances.length; $('n-calls').textContent = calls.length;
+    $('liste-nouveaux').innerHTML = nouveaux.map(function (l) { return carte(l); }).join('') || '<p class="vide">Aucun nouveau lead.</p>';
+    $('liste-relances').innerHTML = relances.map(function (l) { return carte(l, 'relance'); }).join('') || '<p class="vide">Aucune relance à faire.</p>';
+    $('liste-calls-jour').innerHTML = calls.map(function (l) { return carte(l, 'call'); }).join('') || '<p class="vide">Aucun call aujourd\'hui.</p>';
+    [$('liste-nouveaux'), $('liste-relances'), $('liste-calls-jour')].forEach(function (e) { e.style.display = 'flex'; e.style.flexDirection = 'column'; e.style.gap = '10px'; });
+  }
+  function remplirFiltres() {
+    $('f-statut').innerHTML = options(STATUTS, '', 'Tous');
+    $('f-qualite').innerHTML = options(QUALITES, '', 'Toutes');
+    $('f-argent').innerHTML = '<option value="">Tous</option>' + Object.keys(ARGENT).map(function (k) { return '<option value="' + k + '">' + ARGENT[k] + '</option>'; }).join('');
+    $('f-source').innerHTML = options(['Compte de Louis', 'Compte commun'], '', 'Toutes');
+    $('f-closer').innerHTML = options(CLOSERS, '', 'Tous');
+    ['f-statut', 'f-qualite', 'f-argent', 'f-source', 'f-closer'].forEach(function (id) { $(id).addEventListener('change', rendreTous); });
+  }
+  function rendreTous() {
+    var f = { statut: $('f-statut').value, qualite: $('f-qualite').value, argent: $('f-argent').value, source: $('f-source').value, closer: $('f-closer').value };
+    var liste = leads.filter(function (l) {
+      return (!f.statut || l.statut === f.statut) && (!f.qualite || l.qualite === f.qualite) && (!f.argent || l.argent === f.argent) &&
+        (!f.source || l.source === f.source) && (!f.closer || (l.call && l.call.closer === f.closer));
+    }).sort(function (a, b) { return b.depot - a.depot; });
+    $('liste-tous').innerHTML = liste.map(function (l) { return carte(l); }).join('') || '<p class="vide">Aucun lead pour ces filtres.</p>';
+  }
+  function rendreMessages() {
+    $('liste-messages').innerHTML = messages.map(function (m, i) {
+      return '<article class="message"><h3>' + esc(m.titre) + '</h3>' +
+        (m.texte ? '<blockquote>' + esc(m.texte) + '</blockquote>' + (m.note ? '<p class="sous">' + esc(m.note) + '</p>' : '') +
+          '<button class="bouton principal" type="button" data-copier="' + i + '">' + ICONES.copier + 'Copier</button>'
+          : '<blockquote class="a-fournir">Texte à fournir par Marco.</blockquote>') + '</article>';
+    }).join('');
+  }
+
+  // ---------- Fiche lead ----------
+  function ouvrirFiche(id, vue) {
+    var l = lead(id); if (!l) return;
+    var r = l.r, h = historiques[l.id] || [{ le: l.depot, qui: 'Page', quoi: 'Candidature déposée' }];
+    var setter = vue !== 'closer';
+    $('fiche').innerHTML =
+      '<div class="fiche-haut"><h1 id="fiche-titre" style="font-size:24px">' + (l.nom ? esc(l.nom) : '@' + esc(l.ig)) + '</h1><button class="fermer" type="button" data-fermer aria-label="Fermer">' + ICONES.fermer + '</button></div>' +
+      (l.doublonDe ? '<div class="doublon">' + ICONES.alerte + '<span>Doublon possible avec @' + esc(lead(l.doublonDe).ig) + ' (même numéro, même Instagram). L\'admin peut fusionner les deux fiches.</span></div>' : '') +
+      '<div class="actions" style="grid-template-columns:1fr 1fr"><a class="bouton wa" href="' + lienWa(l) + '" target="_blank" rel="noopener">' + ICONES.wa + esc(l.wa) + '</a><a class="bouton" href="' + lienIg(l) + '" target="_blank" rel="noopener">' + ICONES.ig + '@' + esc(l.ig) + '</a></div>' +
+      '<section class="bloc"><h3>Signal argent <span class="exemple">proposé par l\'outil</span></h3><div class="argent">' +
+        '<div class="ligne">' + puceArgent(l) + '<span class="sous">' + esc(l.explication) + '</span></div>' +
+        (l.incoherence ? '<div class="alerte">' + ICONES.alerte + '<span>Incohérence repérée entre la tranche et le texte. À vérifier pendant l\'échange.</span></div>' : '') +
+        '<div class="brut"><b>Question 3 : tranche choisie</b>' + esc(l.tranche) + '</div>' +
+        '<div class="brut"><b>Question 4 : situation financière, texte brut</b>' + esc(r[3]) + '</div>' +
+        (setter ? '<label class="champs" style="display:flex"><span style="font-size:12px;font-weight:600;color:var(--encre-douce)">Corriger le badge à la main</span><select id="corrige-argent">' +
+          Object.keys(ARGENT).map(function (k) { return '<option value="' + k + '"' + (k === l.argent ? ' selected' : '') + '>' + ARGENT[k] + '</option>'; }).join('') + '</select></label>' : '') +
+      '</div></section>' +
+      '<section class="bloc"><h3>Réponses au questionnaire <span class="sous" style="letter-spacing:0;text-transform:none">déposé ' + depuis(l.depot) + ' · ' + esc(l.source) + '</span></h3><dl class="reponses">' +
+        ['1. Présentation', '2. Activité ou idée', '3. Revenus mensuels', '4. Situation financière', '5. Rapport aux réseaux'].map(function (q, i) { return '<div><dt>' + q + '</dt><dd>' + esc(r[i]) + '</dd></div>'; }).join('') +
+      '</dl></section>' +
+      (setter ? '<section class="bloc"><h3>Suivi du setter</h3><div class="champs">' +
+        '<label>Prénom<input type="text" value="' + esc((l.nom || '').split(' ')[1] || '') + '"></label><label>Nom<input type="text"></label>' +
+        '<label>Statut<select>' + options(STATUTS, l.statut) + '</select></label>' +
+        '<label>Qualité<select>' + options(QUALITES, l.qualite) + '</select></label>' +
+        '<label class="large">Conversation<select><option>Instagram</option><option>WhatsApp</option><option>Les deux</option></select></label>' +
+        '<fieldset class="large"><legend>Problème principal</legend><div class="cases">' + PROBLEMES.map(function (p) { return '<label><input type="checkbox">' + p + '</label>'; }).join('') + '</div></fieldset>' +
+        '<label>Dernier message, date<input type="date"></label><label>Date de follow-up<input type="date"></label>' +
+        '<label class="large">Dernier message, résumé<input type="text" value="' + esc(l.dernier ? l.dernier.resume : '') + '"></label>' +
+        '<label class="large obligatoire">Prochaine action<input type="text" value="' + esc(l.action ? l.action.quoi : '') + '" placeholder="Obligatoire pour un lead actif"></label>' +
+        '<label class="obligatoire">Date de la prochaine action<input type="datetime-local"></label>' +
+        '<label>Date et heure du call<input type="datetime-local"></label>' +
+        '<label class="large">Closer<select>' + options(CLOSERS, l.call ? l.call.closer : '', 'Choisir') + '</select></label>' +
+        '<label class="large">Commentaire<textarea></textarea></label>' +
+        '</div><button class="bouton violet" type="button" data-enregistrer>Enregistrer</button></section>' : '') +
+      '<section class="bloc"><h3>Résultat du call' + (setter ? ' <span class="sous" style="letter-spacing:0;text-transform:none">rempli par le closer</span>' : '') + '</h3><div class="champs">' +
+        '<label class="large">Résultat<select ' + (setter ? 'disabled' : '') + '><option>À venir</option><option>Closé</option><option>R2 à prévoir</option><option>Pas closé</option><option>Absent</option></select></label>' +
+        '<label>Date de R2 ou follow-up<input type="date" ' + (setter ? 'disabled' : '') + '></label>' +
+        '<label>Montant du closing' + (setter ? '<input type="text" value="Masqué pour le setter" disabled>' : '<input type="text" inputmode="decimal" placeholder="en €">') + '</label>' +
+        (setter ? '' : '<label class="large">Notes du closer<textarea></textarea></label>') +
+      '</div>' + (setter ? '' : '<button class="bouton violet" type="button" data-enregistrer>Enregistrer le résultat</button>') + '</section>' +
+      '<section class="bloc"><h3>Historique</h3><ul class="historique">' + h.slice().reverse().map(function (e) {
+        return '<li><time>' + jour(e.le) + '<br>' + heure(e.le) + '</time><span><b>' + esc(e.qui) + '</b> · ' + esc(e.quoi) + (e.avant ? ' : <s>' + esc(e.avant) + '</s> → ' + esc(e.apres) : '') + '</span></li>';
+      }).join('') + '</ul></section>';
+    $('fiche-fond').hidden = false;
+    $('fiche').scrollTop = 0;
+    var c = $('corrige-argent');
+    if (c) c.addEventListener('change', function () {
+      var avant = ARGENT[l.argent]; l.argent = c.value; l.argentManuel = l.argent !== l.argentIA;
+      (historiques[l.id] = historiques[l.id] || [{ le: l.depot, qui: 'Page', quoi: 'Candidature déposée' }]).push({ le: Date.now(), qui: 'Setter', quoi: 'Signal argent', avant: avant, apres: ARGENT[l.argent] + ' (corrigé à la main)' });
+      toast('Badge corrigé, la correction est conservée'); ouvrirFiche(l.id, vue); toutRendre();
+    });
+  }
+
+  // ---------- Vue closer ----------
+  var callChoisi = 7;
+  function rendreCloser() {
+    var mes = leads.filter(function (l) { return l.call; });
+    var a_venir = [{ id: 7 }, { id: 2, fictif: maintenant + 26 * H }];
+    $('liste-calls-closer').innerHTML = a_venir.map(function (c) {
+      var l = lead(c.id), t = c.fictif || l.call.le;
+      return '<button class="call" type="button" data-call="' + l.id + '" aria-pressed="' + (l.id === callChoisi) + '"><span class="heure">' + heure(t) + '<span class="jour">' + jour(t) + '</span></span><span><b>' + (l.nom ? esc(l.nom) : '@' + esc(l.ig)) + '</b><br><span class="puces" style="margin-top:6px">' + puceArgent(l) + '<span class="puce gris sans-point">' + esc(l.qualite === 'Inconnu' ? 'Qualité : inconnue' : l.qualite) + '</span></span></span></button>';
+    }).join('');
+    var l = lead(callChoisi);
+    $('detail-closer').innerHTML = '<section class="bloc"><h3>Fiche du call</h3><p style="margin:0">Le closer voit la fiche complète : réponses, signal argent, notes et historique du setter. Il remplit le résultat, le montant et la date de R2.</p><button class="bouton principal" type="button" data-ouvrir-closer="' + l.id + '">Ouvrir la fiche de ' + (l.nom ? esc(l.nom) : '@' + esc(l.ig)) + '</button></section>' +
+      '<section class="bloc"><h3>Notes du setter</h3><p style="margin:0">' + esc(l.action ? l.action.quoi : 'Aucune note') + '</p></section>';
+  }
+
+  function toutRendre() { rendreAujourdhui(); rendreTous(); }
+
+  // ---------- Événements ----------
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-ouvrir],[data-ouvrir-closer],[data-fermer],[data-copier],[data-call],[data-enregistrer],[data-role],[data-onglet],.periode button,#export');
+    if (!t) { if (e.target === $('fiche-fond')) $('fiche-fond').hidden = true; return; }
+    if (t.dataset.ouvrir) ouvrirFiche(t.dataset.ouvrir, 'setter');
+    else if (t.dataset.ouvrirCloser) ouvrirFiche(t.dataset.ouvrirCloser, 'closer');
+    else if (t.hasAttribute('data-fermer')) $('fiche-fond').hidden = true;
+    else if (t.dataset.copier) copier(messages[t.dataset.copier].texte);
+    else if (t.dataset.call) { callChoisi = Number(t.dataset.call); rendreCloser(); }
+    else if (t.hasAttribute('data-enregistrer')) { toast('Maquette : rien n\'est enregistré'); }
+    else if (t.dataset.role) {
+      document.querySelectorAll('[data-role]').forEach(function (b) { b.setAttribute('aria-pressed', String(b === t)); });
+      ['setter', 'closer', 'admin'].forEach(function (r) { $('vue-' + r).hidden = r !== t.dataset.role; });
+      $('fiche-fond').hidden = true;
+    } else if (t.dataset.onglet) {
+      document.querySelectorAll('[data-onglet]').forEach(function (b) { b.setAttribute('aria-pressed', String(b === t)); });
+      ['aujourdhui', 'tous', 'messages'].forEach(function (o) { $('o-' + o).hidden = o !== t.dataset.onglet; });
+    } else if (t.closest('.periode')) {
+      t.parentNode.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', String(b === t)); });
+    } else if (t.id === 'export') toast('Maquette : l\'export CSV sera branché sur la base');
+  });
+  document.addEventListener('change', function (e) {
+    var s = e.target.closest('[data-statut]');
+    if (!s) return;
+    var l = lead(s.dataset.statut), avant = l.statut;
+    l.statut = s.value;
+    if (avant === 'Nouveau' && l.statut !== 'Nouveau') l.dernier = { le: Date.now(), resume: 'Premier contact' };
+    (historiques[l.id] = historiques[l.id] || [{ le: l.depot, qui: 'Page', quoi: 'Candidature déposée' }]).push({ le: Date.now(), qui: 'Setter', quoi: 'Statut', avant: avant, apres: l.statut });
+    toast('Statut : ' + l.statut);
+    toutRendre();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') $('fiche-fond').hidden = true; });
+
+  remplirFiltres(); rendreMessages(); toutRendre(); rendreCloser();
+})();
+</script>

@@ -93,6 +93,9 @@ def main():
     source = (ICI / "src" / "page.html").read_text(encoding="utf-8")
     (ICI / "page-candidature.html").write_text(remplir(source, ""), encoding="utf-8")
     print("Maquette : tunnel/page-candidature.html")
+    outil = (ICI / "src" / "outil.html").read_text(encoding="utf-8").replace("{{LOGO}}", logo_data())
+    (ICI / "maquette-outil.html").write_text(outil, encoding="utf-8")
+    print("Maquette de l'outil : tunnel/maquette-outil.html")
     if a.envoi:
         (ICI / "site").mkdir(exist_ok=True)
         (ICI / "site" / "index.html").write_text(page_complete(remplir(source, a.envoi, whatsapp)), encoding="utf-8")
