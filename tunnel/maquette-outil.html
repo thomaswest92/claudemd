@@ -186,7 +186,23 @@ select.statut { min-height: 44px; border-radius: var(--r-m); border: 1.5px solid
 .suivi-ligne { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--encre-douce); }
 .suivi-ligne b { color: var(--encre); font-weight: 600; }
 .tableau-setter-cadre { overflow: auto; max-height: 70vh; background: var(--blanc); border: 1px solid var(--ligne); border-radius: var(--r-l); }
-.tableau-setter { border-collapse: separate; border-spacing: 0; font-size: 13px; min-width: 2900px; }
+.tableau-setter { border-collapse: separate; border-spacing: 0; font-size: 13px; width: 100%; min-width: 1240px; }
+.tableau-setter .resume-cellule { min-width: 220px; max-width: 300px; line-height: 1.4; color: var(--encre); }
+.tableau-setter .texte-moyen { min-width: 160px; max-width: 220px; line-height: 1.4; }
+.tableau-setter .mini { font-size: 12px; color: var(--encre-douce); margin-top: 4px; white-space: nowrap; }
+.tableau-setter td select { min-width: 130px; }
+.tableau-setter .colle { display: table-cell; }
+.deplier { width: 28px; height: 28px; border-radius: 8px; border: 1.5px solid var(--violet-500); background: var(--blanc); color: var(--violet-900); font: 800 18px/1 var(--titres); margin-right: 8px; vertical-align: top; flex: none; }
+.ligne-lead.ouverte td { background: var(--lilas) !important; }
+.ligne-detail td { background: var(--brume) !important; padding: 0 !important; }
+.detail { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; padding: 14px 16px 18px; position: sticky; left: 0; max-width: min(100vw - 40px, 1180px); }
+@media (max-width: 760px) { .detail { grid-template-columns: 1fr; } }
+.titre-detail { margin: 0 0 8px; font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--or-700); }
+.titre-detail span { letter-spacing: 0; text-transform: none; color: var(--encre-douce); font-weight: 500; }
+.detail .reponses-carte { border-top: 0; padding-top: 0; }
+.tableau-setter td .cases input { width: auto; min-width: 0; min-height: 0; padding: 0; }
+.tableau-setter td .champs input, .tableau-setter td .champs select { min-width: 0; }
+.tableau-setter td .champs textarea { width: 100%; }
 .tableau-setter th { position: sticky; top: 0; z-index: 2; background: var(--violet-900); color: var(--blanc); text-align: left; font-weight: 600; font-size: 12px; padding: 10px 8px; white-space: nowrap; }
 .tableau-setter th.groupe-form { background: #3d1f73; }
 .tableau-setter th.groupe-closer { background: #4a2a80; }
@@ -197,7 +213,8 @@ select.statut { min-height: 44px; border-radius: var(--r-m); border: 1.5px solid
 .tableau-setter td select, .tableau-setter td input { width: 100%; min-width: 120px; min-height: 34px; border: 1px solid var(--ligne); border-radius: 6px; padding: 4px 6px; font-size: 13px; background: var(--blanc); }
 .tableau-setter td input[type="date"], .tableau-setter td input[type="datetime-local"] { min-width: 140px; }
 .tableau-setter .texte-long { min-width: 220px; max-width: 260px; white-space: normal; line-height: 1.4; }
-.tableau-setter .lien-fiche { background: none; border: 0; padding: 0; text-align: left; font: 700 14px/1.3 var(--titres); color: var(--violet-900); }
+.tableau-setter td.colle { white-space: nowrap; }
+.tableau-setter .lien-fiche { display: inline-block; white-space: normal; background: none; border: 0; padding: 0; text-align: left; font: 700 14px/1.3 var(--titres); color: var(--violet-900); }
 .tableau-setter .lien-fiche small { display: block; font: 500 12px/1.4 var(--texte); color: var(--encre-douce); }
 .tableau-setter .masque { color: var(--encre-douce); font-style: italic; white-space: nowrap; }
 .legende-tableau { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 12px; color: var(--encre-douce); margin: 8px 0 12px; }
@@ -248,7 +265,7 @@ select.statut { min-height: 44px; border-radius: var(--r-m); border: 1.5px solid
 
     <div id="o-tableau" hidden>
       <h1>Tous les leads</h1>
-      <p class="sous" style="margin-bottom:12px">Une ligne par lead, toutes les colonnes de ton suivi. Modifiable directement dans le tableau. Touche le nom pour ouvrir la fiche complète.</p>
+      <p class="sous" style="margin-bottom:12px">Tous les leads d'un coup d'œil. Process, qualité et conversation se changent directement dans le tableau.</p>
       <div class="filtres" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
         <label>Process<select id="f-process"></select></label>
         <label>Qualité<select id="f-qualite"></select></label>
@@ -257,7 +274,7 @@ select.statut { min-height: 44px; border-radius: var(--r-m); border: 1.5px solid
         <label>Closer<select id="f-closer"></select></label>
         <label>Recherche<input id="f-texte" type="search" placeholder="Instagram, numéro, nom" style="min-height:40px;border-radius:var(--r-s);border:1.5px solid var(--ligne);padding:6px 8px"></label>
       </div>
-      <div class="legende-tableau"><span id="n-tableau"></span><span>Colonnes en violet foncé : remplies par le setter · violet moyen : réponses du questionnaire · violet clair : remplies par le closer</span></div>
+      <div class="legende-tableau"><span id="n-tableau"></span><span>Le + d'une ligne la déplie : les 5 réponses en entier et tout le suivi, modifiable.</span><button class="bouton" type="button" id="tout-deplier" style="min-height:36px;margin-left:auto"></button></div>
       <div class="tableau-setter-cadre"><table class="tableau-setter" id="tableau-setter"></table></div>
     </div>
 
@@ -512,38 +529,43 @@ select.statut { min-height: 44px; border-radius: var(--r-m); border: 1.5px solid
     $('liste-calls-jour').innerHTML = calls.map(function (l) { return carte(l, 'call'); }).join('') || '<p class="vide">Aucun call aujourd\'hui.</p>';
   }
 
-  // ---------- Tableau de tous les leads ----------
-  var COLONNES = [
-    { t: 'Lead', g: '', cle: 'lead' }, { t: 'Reçu le', g: '', cle: 'depot' }, { t: 'WhatsApp', g: '', cle: 'wa' }, { t: 'Argent', g: '', cle: 'argent' },
-    { t: 'Prénom', g: 's', cle: 'prenom', type: 'texte' }, { t: 'Nom', g: 's', cle: 'nom', type: 'texte' },
-    { t: 'Conversation', g: 's', cle: 'conversation', type: 'liste', liste: CONVERSATIONS }, { t: 'Qualité', g: 's', cle: 'qualite', type: 'liste', liste: QUALITES },
-    { t: 'Process', g: 's', cle: 'process', type: 'liste', liste: PROCESS }, { t: 'Problème principal', g: 's', cle: 'problemes' },
-    { t: 'Dernier message', g: 's', cle: 'dernier' }, { t: 'Follow-up', g: 's', cle: 'followup', type: 'date' },
-    { t: 'Prochaine action', g: 's', cle: 'action' }, { t: 'Call', g: 's', cle: 'callTxt' }, { t: 'Closer', g: 's', cle: 'closer', type: 'liste', liste: CLOSERS, vide: '-' },
-    { t: 'Commentaire', g: 's', cle: 'commentaire', type: 'texte' },
-    { t: '1. Présentation', g: 'f', q: 0 }, { t: '2. Activité ou projet', g: 'f', q: 1 }, { t: '3. Revenus', g: 'f', q: 2 }, { t: '4. Situation financière', g: 'f', q: 3 }, { t: '5. Réseaux', g: 'f', q: 4 },
-    { t: 'Source', g: 'f', cle: 'source' },
-    { t: 'Résultat du call', g: 'c', cle: 'resultat' }, { t: 'R2 / follow-up closer', g: 'c', cle: 'r2' }, { t: 'Montant', g: 'c', cle: 'montant' }
-  ];
-  function cellule(l, c) {
-    if (c.q !== undefined) return '<td class="texte-long">' + esc(l.r[c.q]) + '</td>';
-    switch (c.cle) {
-      case 'lead': return '<td class="colle"><button class="lien-fiche" type="button" data-ouvrir="' + l.id + '">@' + esc(l.ig) + '<small>' + (l.doublonDe ? 'Doublon possible' : esc(l.resume).slice(0, 48) + '...') + '</small></button></td>';
-      case 'depot': return '<td style="white-space:nowrap">' + jour(l.depot) + '<br>' + heure(l.depot) + '</td>';
-      case 'wa': return '<td style="white-space:nowrap"><a href="' + lienWa(l) + '" target="_blank" rel="noopener">' + esc(l.wa) + '</a></td>';
-      case 'argent': return '<td>' + puceArgent(l) + '</td>';
-      case 'problemes': return '<td class="texte-long" style="min-width:160px">' + (esc(l.problemes.join(', ')) || '<span class="masque">-</span>') + '</td>';
-      case 'dernier': return '<td class="texte-long">' + (l.dernier ? '<b>' + jour(l.dernier.le) + '</b><br>' + esc(l.dernier.resume) : '<span class="masque">-</span>') + '</td>';
-      case 'action': return '<td class="texte-long">' + (l.action ? esc(l.action.quoi) + '<br><b>' + jour(l.action.le) + ' ' + heure(l.action.le) + '</b>' : (l.process !== 'Pas intéressé' && l.process !== 'À contacter' ? '<span class="puce rouge">Obligatoire</span>' : '<span class="masque">-</span>')) + '</td>';
-      case 'callTxt': return '<td style="white-space:nowrap">' + (l.call ? jour(l.call) + '<br>' + heure(l.call) : '<span class="masque">-</span>') + '</td>';
-      case 'source': return '<td style="white-space:nowrap">' + esc(l.source) + '</td>';
-      case 'resultat': return '<td>' + (esc(l.resultat) || '<span class="masque">-</span>') + '</td>';
-      case 'r2': return '<td>' + (esc(l.r2) || '<span class="masque">-</span>') + '</td>';
-      case 'montant': return '<td><span class="masque">Masqué pour le setter</span></td>';
-    }
-    if (c.type === 'liste') return '<td><select data-champ="' + c.cle + '" data-id="' + l.id + '">' + options(c.liste, l[c.cle], c.vide) + '</select></td>';
-    if (c.type === 'date') return '<td><input type="datetime-local" data-champ="' + c.cle + '" data-id="' + l.id + '" value="' + esc(l[c.cle]) + '"></td>';
-    return '<td><input type="text" data-champ="' + c.cle + '" data-id="' + l.id + '" value="' + esc(l[c.cle]) + '"' + (c.cle === 'commentaire' ? ' style="min-width:200px"' : '') + '></td>';
+  // ---------- Tableau de tous les leads : vue d'ensemble, chaque ligne se déplie ----------
+  var ouverts = {}, toutOuvert = false;
+  function celluleListe(l, cle, liste, vide) { return '<select data-champ="' + cle + '" data-id="' + l.id + '">' + options(liste, l[cle], vide) + '</select>'; }
+  function ligneResume(l) {
+    var ouvert = toutOuvert || ouverts[l.id];
+    return '<tr class="ligne-lead' + (ouvert ? ' ouverte' : '') + '">' +
+      '<td class="colle"><button class="deplier" type="button" data-deplier="' + l.id + '" aria-expanded="' + !!ouvert + '" aria-label="Tout voir">' + (ouvert ? '−' : '+') + '</button>' +
+        '<button class="lien-fiche" type="button" data-ouvrir="' + l.id + '">' + nomAffiche(l) + '<small>' + ((l.prenom || l.nom) ? '@' + esc(l.ig) + ' · ' : '') + esc(l.wa) + '</small></button></td>' +
+      '<td class="resume-cellule">' + (l.doublonDe ? '<span class="puce rouge sans-point">Doublon possible</span> ' : '') + esc(l.resume) + '</td>' +
+      '<td style="white-space:nowrap">' + jour(l.depot) + '<br>' + heure(l.depot) + (l.process === 'À contacter' ? '<br><span class="puce ' + urgence(l) + ' chrono">' + depuis(l.depot) + '</span>' : '') + '</td>' +
+      '<td>' + puceArgent(l) + '<div class="mini">' + esc(l.r[2]) + '</div></td>' +
+      '<td>' + celluleListe(l, 'process', PROCESS) + '</td>' +
+      '<td>' + celluleListe(l, 'qualite', QUALITES) + '</td>' +
+      '<td>' + celluleListe(l, 'conversation', CONVERSATIONS) + '</td>' +
+      '<td class="texte-moyen">' + (l.action ? esc(l.action.quoi) + '<br><b>' + jour(l.action.le) + ' ' + heure(l.action.le) + '</b>' : (l.process !== 'Pas intéressé' && l.process !== 'À contacter' ? '<span class="puce rouge">Obligatoire</span>' : '<span class="masque">-</span>')) + '</td>' +
+      '<td class="texte-moyen">' + (l.dernier ? '<b>' + jour(l.dernier.le) + '</b><br>' + esc(l.dernier.resume) : '<span class="masque">-</span>') + '</td>' +
+      '<td style="white-space:nowrap">' + (l.call ? jour(l.call) + ' ' + heure(l.call) + '<br>' + esc(l.closer) : '<span class="masque">-</span>') + '</td>' +
+      '</tr>' + (ouvert ? ligneDetail(l) : '');
+  }
+  function ligneDetail(l) {
+    var champ = function (titre, html) { return '<label>' + titre + html + '</label>'; };
+    var input = function (cle, type) { return '<input type="' + (type || 'text') + '" data-champ="' + cle + '" data-id="' + l.id + '" value="' + esc(l[cle]) + '">'; };
+    return '<tr class="ligne-detail"><td colspan="10"><div class="detail">' +
+      '<div class="detail-reponses"><p class="titre-detail">Réponses au questionnaire <span>· ' + esc(l.source) + '</span></p>' +
+        '<dl class="reponses-carte">' + l.r.map(function (rep, i) { return '<div><dt>' + (i + 1) + '.</dt><dd><small>' + QUESTIONS[i] + '</small>' + esc(rep) + '</dd></div>'; }).join('') + '</dl>' +
+        '<p class="explication" style="margin-top:8px"><b>Indication argent :</b> ' + esc(l.explication) + '</p>' +
+      '</div>' +
+      '<div class="detail-suivi"><p class="titre-detail">Suivi</p><div class="champs">' +
+        champ('Prénom', input('prenom')) + champ('Nom', input('nom')) +
+        '<fieldset class="large"><legend>Problème principal</legend><div class="cases">' + PROBLEMES.map(function (p) { return '<label><input type="checkbox" data-probleme="' + esc(p) + '" data-id="' + l.id + '"' + (l.problemes.indexOf(p) >= 0 ? ' checked' : '') + '>' + p + '</label>'; }).join('') + '</div></fieldset>' +
+        champ('Follow-up', input('followup', 'datetime-local')) + champ('Closer', celluleListe(l, 'closer', CLOSERS, '-')) +
+        '<label class="large">Commentaire<textarea data-champ="commentaire" data-id="' + l.id + '">' + esc(l.commentaire) + '</textarea></label>' +
+        champ('Résultat du call', '<input type="text" value="' + esc(l.resultat || '-') + '" disabled>') + champ('R2 / follow-up closer', '<input type="text" value="' + esc(l.r2 || '-') + '" disabled>') +
+        '<label class="large">Montant<input type="text" value="Masqué pour le setter" disabled></label>' +
+      '</div>' +
+      '<div class="actions" style="margin-top:10px"><a class="bouton wa" href="' + lienWa(l) + '" target="_blank" rel="noopener">' + ICONES.wa + 'WhatsApp</a><a class="bouton" href="' + lienIg(l) + '" target="_blank" rel="noopener">' + ICONES.ig + 'Instagram</a></div>' +
+      '</div></div></td></tr>';
   }
   function remplirFiltres() {
     $('f-process').innerHTML = options(PROCESS, '', 'Tous');
@@ -556,15 +578,15 @@ select.statut { min-height: 44px; border-radius: var(--r-m); border: 1.5px solid
   function rendreTableau() {
     var f = { process: $('f-process').value, qualite: $('f-qualite').value, argent: $('f-argent').value, source: $('f-source').value, closer: $('f-closer').value, texte: $('f-texte').value.trim().toLowerCase() };
     var liste = leads.filter(function (l) {
-      var cherche = (l.ig + ' ' + l.wa + ' ' + l.prenom + ' ' + l.nom).toLowerCase();
+      var cherche = (l.ig + ' ' + l.wa + ' ' + l.prenom + ' ' + l.nom + ' ' + l.r.join(' ')).toLowerCase();
       return (!f.process || l.process === f.process) && (!f.qualite || l.qualite === f.qualite) && (!f.argent || l.argent === f.argent) &&
         (!f.source || l.source === f.source) && (!f.closer || l.closer === f.closer) && (!f.texte || cherche.indexOf(f.texte) >= 0);
     }).sort(function (a, b) { return b.depot - a.depot; });
-    var g = { '': '', s: '', f: ' class="groupe-form"', c: ' class="groupe-closer"' };
-    $('tableau-setter').innerHTML = '<thead><tr>' + COLONNES.map(function (c, i) { return '<th' + (i === 0 ? ' class="colle"' : g[c.g]) + '>' + c.t + '</th>'; }).join('') + '</tr></thead>' +
-      '<tbody>' + (liste.map(function (l) { return '<tr>' + COLONNES.map(function (c) { return cellule(l, c); }).join('') + '</tr>'; }).join('') ||
-        '<tr><td class="colle" colspan="' + COLONNES.length + '">Aucun lead pour ces filtres.</td></tr>') + '</tbody>';
+    var titres = ['Lead', 'Résumé', 'Reçu', 'Argent', 'Process', 'Qualité', 'Conversation', 'Prochaine action', 'Dernier message', 'Call'];
+    $('tableau-setter').innerHTML = '<thead><tr>' + titres.map(function (t, i) { return '<th' + (i === 0 ? ' class="colle"' : '') + '>' + t + '</th>'; }).join('') + '</tr></thead>' +
+      '<tbody>' + (liste.map(ligneResume).join('') || '<tr><td class="colle" colspan="10">Aucun lead pour ces filtres.</td></tr>') + '</tbody>';
     $('n-tableau').textContent = liste.length + ' lead' + (liste.length > 1 ? 's' : '') + ' affiché' + (liste.length > 1 ? 's' : '');
+    $('tout-deplier').textContent = toutOuvert ? 'Replier toutes les lignes' : 'Déplier toutes les lignes (réponses et suivi)';
   }
   function rendreMessages() {
     $('liste-messages').innerHTML = messages.map(function (m, i) {
@@ -646,6 +668,9 @@ select.statut { min-height: 44px; border-radius: var(--r-m); border: 1.5px solid
 
   // ---------- Événements ----------
   document.addEventListener('click', function (e) {
+    var dp = e.target.closest('[data-deplier]');
+    if (dp) { ouverts[dp.dataset.deplier] = !ouverts[dp.dataset.deplier]; if (!ouverts[dp.dataset.deplier]) toutOuvert = false; rendreTableau(); return; }
+    if (e.target.closest('#tout-deplier')) { toutOuvert = !toutOuvert; if (!toutOuvert) ouverts = {}; rendreTableau(); return; }
     var t = e.target.closest('[data-ouvrir],[data-ouvrir-closer],[data-fermer],[data-copier],[data-call],[data-role],[data-onglet],.periode button,#export');
     if (!t) { if (e.target === $('fiche-fond')) $('fiche-fond').hidden = true; return; }
     if (t.dataset.ouvrir) ouvrirFiche(t.dataset.ouvrir, 'setter');

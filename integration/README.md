@@ -36,7 +36,7 @@ Tout vit dans un schéma Postgres à part, `tunnel`, pour ne rien toucher aux ta
    supabase secrets set ANTHROPIC_API_KEY=... RESEND_API_KEY=... \
      EMAIL_EXPEDITEUR="Académie des Sorciers <candidatures@DOMAINE>" \
      URL_OUTIL_SETTER=https://APP/setter \
-     ORIGINES_AUTORISEES=https://ADRESSE_DE_LA_PAGE \
+     ORIGINES_AUTORISEES=https://academiedessorciers.app \
      SOURCES_LISIBLES='{"louis":"Compte de Louis","b2b":"Compte commun"}' \
      SEL_IP=une-chaine-aleatoire
    ```
@@ -48,13 +48,13 @@ Tout vit dans un schéma Postgres à part, `tunnel`, pour ne rien toucher aux ta
    select vault.create_secret('CLE_SERVICE', 'cle_service');
    ```
    puis lancer `20261016000100_taches_planifiees.sql`.
-5. **Réglages.** Dans `tunnel.reglages` : `emails_nouveau_lead` et `emails_recap_quotidien` (listes JSON d'adresses). Les seuils de l'indication argent (`argent_par_tranche`), le délai de relance (48 h) et les paliers d'urgence (24 h, 48 h) sont aussi là : c'est le seul endroit à modifier.
+5. **Réglages.** Dans `tunnel.reglages` : `emails_nouveau_lead` et `emails_recap_quotidien` (listes JSON d'adresses, à demander à Louis). Les seuils de l'indication argent (`argent_par_tranche`), le délai de relance (48 h) et les paliers d'urgence (24 h, 48 h) sont aussi là : c'est le seul endroit à modifier.
 6. **Comptes.** Créer les comptes du setter et des closers dans Supabase Auth, puis :
    ```sql
    insert into tunnel.equipe (user_id, role, nom, email) values ('UUID', 'setter', 'Prénom', 'email');
    ```
    Marco et Louis en `admin`.
-7. **La page.** Depuis ce dépôt : `python3 tunnel/build.py --envoi https://PROJET.supabase.co/functions/v1/candidature`, puis héberger `tunnel/site/index.html` sur l'adresse choisie (sous-domaine ou chemin de la plateforme). L'adresse doit figurer dans `ORIGINES_AUTORISEES`.
+7. **La page.** Elle doit être servie à **https://academiedessorciers.app/** (choix de Marco). Depuis ce dépôt : `python3 tunnel/build.py --envoi https://PROJET.supabase.co/functions/v1/candidature` produit `tunnel/site/index.html`, une page HTML autonome : la servir telle quelle à la racine du domaine (fichier statique ou route qui renvoie ce fichier). Si la racine sert déjà l'application, demander à Louis où déplacer l'une ou l'autre.
 8. **Sauvegardes.** Elles dépendent de l'offre Supabase : quotidiennes sur Pro. À vérifier dans Database > Backups.
 
 ## Écrans à construire dans la plateforme
@@ -129,8 +129,7 @@ Modèle `claude-opus-5-5`, effort `low`, environ 1 500 mots en entrée et une co
 
 ## Points ouverts
 
-- L'adresse de la page (sous-domaine ou chemin de la plateforme).
-- Les adresses e-mail des alertes, et le service d'envoi.
+- Les adresses e-mail des alertes, et le service d'envoi : à demander à Louis.
 - Les vidéos et leur hébergement. Le plus simple : un fichier MP4 compressé dans Supabase Storage, lu par la balise `<video>` de la page. Pas de service en plus, pas de cookie, et la mesure 25, 50, 75, 100 % est déjà codée.
 - Les textes de la bibliothèque de messages (Marco).
 - Les champs [À REMPLIR] de la page « Mentions légales et confidentialité », dont la durée de conservation. La purge automatique des candidatures partielles est réglée à 90 jours par défaut.
