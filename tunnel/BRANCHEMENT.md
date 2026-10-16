@@ -1,70 +1,82 @@
-# Brancher la page de candidature sur un Google Sheet
+# Brancher la page de candidature
 
-Résultat : chaque candidature arrive en temps réel dans un Google Sheet mis en forme pour le setter. Une ligne par candidat :
-- **Partielle** dès que WhatsApp et Instagram sont remplis, même si la personne abandonne ensuite. Les réponses se complètent au fur et à mesure qu'elle écrit.
-- **Complète** quand elle clique sur « Je dépose ma candidature ». Un e-mail part alors aux adresses choisies.
+Résultat : chaque candidature arrive en temps réel dans un Google Sheet, déjà triée pour le setter.
 
-Le script crée aussi :
-- un onglet **Visites** (une ligne par visite de la page) ;
-- un onglet **Tableau de bord** : visites, candidatures complètes et partielles, taux de conversion, taux d'abandon, candidatures en retard, répartition par tranche de revenus, par étape de suivi et par source, en total et sur 7 jours.
+Temps estimé : 15 minutes (20 avec l'analyse par Claude). Coût : 0 €, plus quelques centimes par candidature si l'analyse par Claude est activée.
 
-Une candidature complète restée « À contacter » voit sa date passer en orange après 48 h et en rouge après 72 h : c'est la promesse faite au candidat.
+## Ce que le setter voit
 
-Le setter a ses propres colonnes (Setter, Suivi avec menu déroulant coloré, Notes) : le script n'y touche jamais. Instagram et WhatsApp sont des liens cliquables (le lien WhatsApp ouvre directement la conversation).
+L'onglet **Candidatures** est sa file de travail, triée automatiquement à chaque nouvelle candidature complète :
+1. en haut, les candidatures complètes **À contacter** : priorité A d'abord, puis B, puis C, et à priorité égale la plus ancienne (pour tenir les 48 h promises) ;
+2. ensuite les candidatures déjà traitées ;
+3. tout en bas, les **partielles** (contact laissé, questionnaire pas fini), en gris.
 
-Temps estimé : 15 minutes. Coût : 0 €.
+Colonnes, de gauche à droite, dans l'ordre où le setter en a besoin :
+- **Priorité** selon l'argent (question 3) : A · Prioritaire (5 000 € et plus par mois), B · À creuser (2 000 à 5 000 €), C · Pas prioritaire (moins de 2 000 €). Les seuils se règlent dans `CONFIG.PRIORITE` en haut du script.
+- **Reçue le** : orange après 24 h sans contact, rouge après 48 h.
+- **Suivi** : menu déroulant (À contacter, Contacté, Appel fixé, Closé, Pas qualifié, Injoignable).
+- **Instagram** et **WhatsApp** : cliquables, le lien WhatsApp ouvre directement la conversation.
+- **Revenus mensuels** et **Situation financière** juste à côté, pour juger l'argent en un coup d'œil.
+- **Analyse de Claude** et **Note projet** (si activé, étape 5) : recommandation, capacité à investir, résumé en deux phrases, points à surveiller, note du projet sur 5.
+- Les autres réponses, **WhatsApp confirmé** (le candidat a cliqué sur le bouton de la page de remerciement), la source, puis les colonnes **Setter** et **Notes**.
+
+Le menu **Académie** du Sheet permet de retrier la file à la main.
+
+L'onglet **Tableau de bord** donne les visites, le taux de conversion, le taux d'abandon, les confirmations WhatsApp, les candidatures en retard et la répartition par priorité, par revenus, par suivi et par source.
 
 ## 1. Créer le Google Sheet et coller le script
 
-1. Crée un Google Sheet, ou ouvre votre CRM existant (le script ajoute simplement un onglet « Candidatures »).
+1. Crée un Google Sheet, ou ouvre votre CRM existant : le script ajoute ses propres onglets.
 2. Menu **Extensions > Apps Script**.
 3. Efface le contenu de `Code.gs`, colle tout le contenu de `tunnel/google-sheet/Code.gs`, enregistre.
 4. En haut du fichier, dans `CONFIG` :
-   - `EMAILS` : les adresses qui reçoivent une alerte à chaque candidature complète, par exemple `['marco@...', 'louis@...']`.
-   - `WEBHOOKS` : laisse vide pour l'instant (voir l'étape 5).
-5. En haut de l'éditeur, choisis la fonction **installer** puis clique sur **Exécuter**. Google demande des autorisations : accepte avec ton compte. L'onglet « Candidatures » se crée et se met en forme.
+   - `EMAILS` : les adresses qui reçoivent une alerte à chaque candidature complète, par exemple `['marco@...']`. L'objet de l'e-mail commence par la priorité.
+   - `PRIORITE` : vérifie les seuils.
+5. Choisis la fonction **installer** puis **Exécuter**. Accepte les autorisations demandées par Google.
 
 ## 2. Mettre le script en ligne
 
-1. Bouton **Déployer > Nouveau déploiement**.
-2. Type : **Application Web**.
-3. « Exécuter en tant que » : **Moi**. « Qui a accès » : **Tout le monde**.
-4. **Déployer**, puis copie l'URL qui se termine par `/exec`.
+1. **Déployer > Nouveau déploiement**, type **Application Web**.
+2. « Exécuter en tant que » : **Moi**. « Qui a accès » : **Tout le monde**.
+3. **Déployer**, puis copie l'URL qui se termine par `/exec`. Ouvre-la dans ton navigateur : tu dois voir `{"ok":true,...}`.
 
-Vérification : ouvre cette URL dans ton navigateur. Tu dois voir `{"ok":true,...}`.
+Après chaque modification du script : **Déployer > Gérer les déploiements > Modifier > Nouvelle version**. L'URL reste la même.
 
-Si tu modifies le script plus tard : **Déployer > Gérer les déploiements > Modifier > Nouvelle version**. L'URL reste la même.
-
-## 3. Fabriquer la page branchée
-
-Dans le dépôt :
+## 3. Fabriquer la page
 
 ```
-python3 tunnel/build.py --envoi https://script.google.com/macros/s/TON_ID/exec
+python3 tunnel/build.py --envoi https://script.google.com/macros/s/TON_ID/exec --whatsapp 33612345678
 ```
 
-La page prête à mettre en ligne est créée dans `tunnel/site/index.html`.
+`--whatsapp` est le numéro WhatsApp de l'Académie, au format international sans le +. C'est lui qui reçoit le message « Je viens de déposer ma candidature » quand le candidat clique sur « Confirmer sur WhatsApp ». Utilise le WhatsApp du setter, idéalement en WhatsApp Business.
+
+La page prête est créée dans `tunnel/site/index.html`.
 
 ## 4. Mettre la page en ligne sur Netlify
 
-1. Sur Netlify : **Add new site > Deploy manually**, puis glisse le dossier `tunnel/site`.
-2. Dans **Domain management**, branche le domaine ou sous-domaine choisi (par exemple `candidature.tondomaine.com`).
-3. Fais une candidature test de bout en bout et vérifie la ligne dans le Sheet et l'e-mail. Supprime ensuite la ligne de test.
+1. Netlify : **Add new site > Deploy manually**, glisse le dossier `tunnel/site`.
+2. **Domain management** : branche le domaine ou le sous-domaine choisi.
+3. Fais une candidature test de bout en bout, vérifie la ligne et l'e-mail, puis supprime la ligne de test.
 
-Astuce suivi : mets des liens différents selon l'endroit où tu les publies, par exemple `?utm_source=louis` dans la bio de Louis et `?utm_source=b2b` sur le compte B2B. La colonne **Source** du Sheet dira d'où vient chaque candidat.
+Mets un lien différent par endroit (`?utm_source=louis` dans la bio de Louis, `?utm_source=b2b` sur le compte commun) : la colonne Source dira quel compte amène les bons profils.
 
-## 5. Facultatif : envoyer aussi vers GoHighLevel ou votre SaaS
+## 5. Facultatif : l'analyse par Claude
 
-1. Dans GoHighLevel : **Automation > Workflows > nouveau workflow**, déclencheur **Inbound Webhook**. Copie l'URL du webhook.
-2. Colle-la dans `WEBHOOKS` du script, par exemple `WEBHOOKS: ['https://services.leadconnectorhq.com/hooks/...']`, puis redéploie une nouvelle version (étape 2).
-3. Dans le workflow, ajoute l'action **Create/Update Contact** et associe les champs reçus : `phone`, `instagram`, `revenus_mensuels`, `presentation`, `activite`, `situation_financiere`, `rapport_reseaux`, `source`.
+1. Crée une clé sur https://platform.claude.com (rubrique API keys) et ajoute un moyen de paiement.
+2. Dans Apps Script : **Paramètres du projet > Propriétés du script > Ajouter**, nom `ANTHROPIC_API_KEY`, valeur : la clé. Ne la colle jamais dans le code.
+3. Lance la fonction **installer** une nouvelle fois : elle active l'analyse automatique (une vérification par minute).
+4. Lance **testerUneCandidature** : une ligne de test apparaît avec « Analyse en attente... », puis l'analyse s'écrit dans la minute. Supprime la ligne ensuite.
 
-Même principe pour votre SaaS ou n'importe quel outil qui accepte un webhook entrant (Zapier, Make...) : chaque candidature complète y est envoyée en JSON.
+Règle intégrée : l'argent reste éliminatoire. Une candidature en priorité C n'est jamais marquée « Appeler en priorité », même si le projet est bon.
+
+## 6. Facultatif : GoHighLevel ou votre SaaS
+
+Colle l'URL d'un webhook entrant dans `CONFIG.WEBHOOKS` puis redéploie. Chaque candidature complète y part en JSON avec ces champs : `phone`, `instagram`, `instagram_url`, `priorite`, `revenus_mensuels`, `presentation`, `activite`, `situation_financiere`, `rapport_reseaux`, `source`, `id`, `recu_le`.
 
 ## Ce que la page vérifie
 
-- **WhatsApp** : le numéro doit exister pour le pays choisi (vérification par numéro, pays par pays, avec la librairie de Google). Si la personne colle un numéro avec indicatif (+44...), le pays se met à jour tout seul. Le numéro est enregistré au format international (+33612345678).
-- **Instagram** : un nom d'utilisateur valide (lettres, chiffres, points, tirets bas). Si la personne colle un lien de profil ou met un @, c'est nettoyé.
-- **Les 5 questions** : toutes obligatoires.
-- **Anti-robots** : un champ invisible piège les robots, leurs envois sont ignorés.
-- **Brouillon** : si la page se recharge, les réponses sont gardées sur le téléphone de la personne.
+- **WhatsApp** : le numéro doit exister pour le pays choisi. S'il est collé avec un indicatif (+44...), le pays se met à jour seul. Il est enregistré au format international.
+- **Instagram** : un nom d'utilisateur valide. Un lien de profil ou un @ sont nettoyés.
+- **Les 5 questions** sont obligatoires.
+- **Anti-robots** : un champ invisible piège les robots.
+- **Brouillon** : si la page se recharge, les réponses restent sur le téléphone du candidat.
