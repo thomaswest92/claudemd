@@ -787,6 +787,19 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
     new IntersectionObserver(function (e) { formVisible = e[0].isIntersecting; maj(); }).observe($('candidature'));
   }
 
+  // ---------- Mesure de la vidéo : 25, 50, 75 et 100 % regardés (une fois chacun par visite, sans cookie) ----------
+  var video = document.querySelector('.video-vsl video');
+  if (video && ENVOI_URL) {
+    var paliers = [25, 50, 75, 100], deja = {};
+    video.addEventListener('timeupdate', function () {
+      if (!video.duration) return;
+      var pc = video.currentTime / video.duration * 100;
+      paliers.forEach(function (p) {
+        if (pc >= (p === 100 ? 98 : p) && !deja[p]) { deja[p] = true; poste({ type: 'video_' + p, utm: utm }).catch(function () {}); }
+      });
+    });
+  }
+
   // ---------- Son de la vidéo ----------
   var son = $('bouton-son');
   son.addEventListener('click', function () {

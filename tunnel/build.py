@@ -2,11 +2,11 @@
 """Fabrique les deux versions de la page de candidature à partir de src/page.html.
 
 - page-candidature.html : maquette publiée sur Claude (rien n'est envoyé).
-- site/index.html : vraie page à déposer sur Netlify, branchée sur le Google Sheet.
+- site/index.html : vraie page, branchée sur la fonction Supabase "candidature" (ou, en secours, le Google Sheet).
 
 Usage :
     python3 tunnel/build.py                          # maquette seulement
-    python3 tunnel/build.py --envoi https://script.google.com/macros/s/XXX/exec --whatsapp 33612345678
+    python3 tunnel/build.py --envoi https://TON_PROJET.supabase.co/functions/v1/candidature
 """
 import argparse
 import base64
@@ -81,11 +81,11 @@ def page_complete(contenu: str) -> str:
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--envoi", default="", help="URL du Google Apps Script (se termine par /exec)")
+    p.add_argument("--envoi", default="", help="Adresse de la fonction Supabase candidature (ou du Google Apps Script)")
     p.add_argument("--whatsapp", default="", help="Numéro WhatsApp de l'Académie, format international sans + (ex. 33612345678)")
     a = p.parse_args()
-    if a.envoi and not re.fullmatch(r"https://script\.google\.com/macros/s/[\w-]+/exec", a.envoi):
-        raise SystemExit("L'adresse doit ressembler à https://script.google.com/macros/s/.../exec")
+    if a.envoi and not re.fullmatch(r"https://[\w.-]+(/[\w./-]*)?", a.envoi):
+        raise SystemExit("L'adresse d'envoi doit être une adresse https, par exemple https://TON_PROJET.supabase.co/functions/v1/candidature")
     whatsapp = re.sub(r"\D", "", a.whatsapp)
     if a.whatsapp and not 8 <= len(whatsapp) <= 15:
         raise SystemExit("Le numéro WhatsApp doit être au format international, par exemple 33612345678")
