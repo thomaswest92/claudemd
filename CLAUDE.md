@@ -172,6 +172,7 @@ Ce que ces documents ajoutent ou précisent par rapport aux sections ci-dessus :
 - Intégration : Louis a bâti la plateforme (Supabase). Le paquet `integration/` (schéma `tunnel`, fonctions `candidature` et `taches`, guide README) est à donner à Louis pour son Claude Code. Les setters n'ont pas encore de compte.
 - Adresse de la page de candidature (Marco, 16 octobre 2026) : https://academiedessorciers.app/ . Les e-mails des alertes seront demandés par le Claude de Louis. Message à copier pour Louis : `integration/MESSAGE-POUR-LOUIS.md`.
 - Tableau du setter (maquette V3) : vue d'ensemble compacte (lead, résumé, reçu, argent, process, qualité, conversation, prochaine action, dernier message, call), chaque ligne se déplie avec les 5 réponses et tout le suivi ; bouton pour tout déplier.
+- État au 16 octobre 2026 (fin de journée) : l'outil est DÉJÀ branché et en ligne sur la plateforme par Louis (schéma `tunnel` installé, page de candidature sur https://academiedessorciers.app, outil setter, closer et admin). Ne rien refaire. La référence est désormais la section 6 de `documents/Historique et décisions.md` dans le dépôt academiesorcier/academie-des-sorciers ; le paquet `integration/` de ce dépôt est historique. Avant toute modification de la base, prévenir Louis.
 - Toujours à trancher : les chiffres d'Anna (le brief dit 3 millions de vues, plus de 20 000 €, 2 personnes employées, plus de 25 000 abonnés ; la charte dit 15 000 € sur une seule vidéo).
 
 ## 12. Travail sur la plateforme (dépôt academiesorcier/academie-des-sorciers)
