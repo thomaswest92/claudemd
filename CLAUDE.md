@@ -172,15 +172,15 @@ Ce que ces documents ajoutent ou précisent par rapport aux sections ci-dessus :
 - Intégration : Louis a bâti la plateforme (Supabase). Le paquet `integration/` (schéma `tunnel`, fonctions `candidature` et `taches`, guide README) est à donner à Louis pour son Claude Code. Les setters n'ont pas encore de compte.
 - Adresse de la page de candidature (Marco, 16 octobre 2026) : https://academiedessorciers.app/ . Les e-mails des alertes seront demandés par le Claude de Louis. Message à copier pour Louis : `integration/MESSAGE-POUR-LOUIS.md`.
 - Tableau du setter (maquette V3) : vue d'ensemble compacte (lead, résumé, reçu, argent, process, qualité, conversation, prochaine action, dernier message, call), chaque ligne se déplie avec les 5 réponses et tout le suivi ; bouton pour tout déplier.
-- État au 16 octobre 2026 (fin de journée) : l'outil est DÉJÀ branché et en ligne sur la plateforme par Louis (schéma `tunnel` installé, page de candidature sur https://academiedessorciers.app, outil setter, closer et admin). Ne rien refaire. La référence est désormais la section 6 de `documents/Historique et décisions.md` dans le dépôt academiesorcier/academie-des-sorciers ; le paquet `integration/` de ce dépôt est historique. Avant toute modification de la base, prévenir Louis.
+- État au 16 octobre 2026 (fin de journée) : l'outil est DÉJÀ branché et en ligne sur la plateforme par Louis (schéma `tunnel` installé, page de candidature sur https://academiedessorciers.app, outil setter, closer et admin). Ne rien refaire. La référence est désormais la section 6 de `documents/Historique et décisions.md` dans le dépôt academiesorcier/academie-des-sorciers ; le paquet `integration/` de ce dépôt est historique.
 - Toujours à trancher : les chiffres d'Anna (le brief dit 3 millions de vues, plus de 20 000 €, 2 personnes employées, plus de 25 000 abonnés ; la charte dit 15 000 € sur une seule vidéo).
 
 ## 12. Travail sur la plateforme (dépôt academiesorcier/academie-des-sorciers)
 
 - Code de la plateforme : https://github.com/academiesorcier/academie-des-sorciers (Supabase, déployée par Vercel). Après récupération : `npm install`, puis lire et appliquer le CLAUDE.md de ce dépôt.
 - Identité git : user.name « Marco », user.email « 129163562+thomaswest92@users.noreply.github.com » (sinon Vercel bloque les envois).
-- Règles pour ne pas se marcher dessus avec Louis :
+- Marco et Louis sont associés : Marco n'a besoin de l'accord de personne. Tu fais directement ce qu'il demande, base de données comprise, sans lui rappeler de prévenir Louis et sans lui demander de le faire (décision de Marco, 19/10/2026). Les décisions restent notées dans `documents/Historique et décisions.md`, pour que tout le monde soit au même niveau.
+- Pour ne pas écraser le travail de Louis :
   - avant de commencer : récupérer la dernière version ;
   - une fois fini : envoyer les changements sur GitHub (le site se met à jour tout seul en une minute) ;
-  - avant de toucher à la base de données ou à une grosse partie (l'outil setter par exemple) : prévenir Louis sur WhatsApp ;
   - si on a modifié la même chose en même temps : montrer les deux versions et demander laquelle garder, ne rien écraser.
